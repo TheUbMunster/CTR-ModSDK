@@ -204,6 +204,46 @@ LAB_80035098:
 				(gGT->threadBuckets[iVar4].thread != 0)
 			)
 			{
+
+// online multiplayer
+#ifdef USE_ONLINE
+
+				// synchronize track hazards
+				if(
+					(iVar4 == STATIC) ||
+					(iVar4 == SPIDER)
+				)
+				{
+					if(gGT->trafficLightsTimer > 3600)
+						continue;
+				}
+
+				if (iVar4 == 0)
+				{
+					struct Driver* dOnline = gGT->drivers[0];
+					if(dOnline != 0)
+					{
+						struct Thread* dThread = dOnline->instSelf->thread;
+
+						DECOMP_VehPickupItem_ShootOnCirclePress(dOnline);
+
+						RunVehicleSet13(dThread, dOnline);
+						octr->desiredFPS = FPS_DOUBLE(30);
+					}
+
+					for(int other = 1; other < 8; other++)
+					{
+						dOnline = gGT->drivers[other];
+						if(dOnline == 0) continue;
+
+						struct Thread* dThread = dOnline->instSelf->thread;
+
+						RunVehicleSet13(dThread, dOnline);
+					}
+				}
+
+// offline
+#else
 				if (iVar4 == 0)
 				{
 
@@ -273,18 +313,8 @@ LAB_80035098:
 					gGT->numPlyrCurrGame = backupPlyrCount;
 					#endif
 				}
-
-#ifdef USE_ONLINE
-				// synchronize track hazards
-				if(
-					(iVar4 == STATIC) ||
-					(iVar4 == SPIDER)
-				)
-				{
-					if(gGT->trafficLightsTimer > 3600)
-						continue;
-				}
 #endif
+
 
 #ifndef REBUILD_PS1
 				ThTick_RunBucket(gGT->threadBuckets[iVar4].thread);

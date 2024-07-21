@@ -30,10 +30,7 @@ void DECOMP_CAM_ThTick(struct Thread *t)
 	short *scratchpad;
 	int iVar24;
 	int iVar25;
-	short local_28;
-	short local_26;
-	short local_24;
-	
+
 	struct GameTracker* gGT = sdata->gGT;
 	scratchpad = (short *)0x1f800108;
 	cDC = (struct CameraDC *)t->inst;
@@ -77,40 +74,36 @@ void DECOMP_CAM_ThTick(struct Thread *t)
 			cDC->cameraMode = 0;
 		}
 	}
-	
+
 	ptrZoomData = &data.NearCam4x3;
 	if (gGT->numPlyrCurrGame == 2)
 		ptrZoomData = &data.NearCam8x3;
-	
+
 	ptrZoomData = &ptrZoomData[cDC->nearOrFar*2];
 
 	if ((cDC->flags & 0x20) == 0) goto SkipNewCameraEOR;
-	
+
 	psVar14 = gGT->level1->ptrSpawnType1;
-	
+
 	psVar21 = 0;
 	if (psVar14->count < 3) goto SkipNewCameraEOR;
-	
+
 	void** ptrs = ST1_GETPOINTERS(psVar14);
 	psVar19 = ptrs[ST1_CAMERA_EOR];
-	
+
 	// number of EOR cameras
 	sVar6 = *psVar19;
-	
-	local_28 = (short)((u_int)d->posCurr[0] >> 8);
-	local_26 = (short)((u_int)d->posCurr[1] >> 8);
-	local_24 = (short)((u_int)d->posCurr[2] >> 8);
-	
+
 	// advance to first EOR
 	psVar20 = psVar19 + 1;
 
 	if (sVar6 != 0)
 	{
 		uVar22 = (u_int)d->unknown_lap_related[1];
-		
+
 		// pointer to modeID in EOR camera
 		psVar19 += 2;
-		
+
 		for(; sVar6 != 0; sVar6--)
 		{
 			// camera mode
@@ -119,15 +112,15 @@ void DECOMP_CAM_ThTick(struct Thread *t)
 			{
 				iVar7 = -iVar7;
 			}
-			
+
 			// respawnPoint
 			uVar16 = (u_int)*psVar20;
-			
+
 			// +2 to include respawnPoint and modeID
 			psVar20 = (short *)((int)psVar19 + data.EndOfRace_Camera_Size[iVar7] + 2);
-			
+
 			psVar15 = &gGT->level1->ptr_restart_points[uVar16];
-			
+
 			// If this printf happens, the code works,
 			// but without printf, it ignores the nextIndex IFs
 			#if 0
@@ -135,16 +128,16 @@ void DECOMP_CAM_ThTick(struct Thread *t)
 			uVar22,
 			uVar16,
 			psVar15->nextIndex_forward,
-			psVar15->nextIndex_left, 
+			psVar15->nextIndex_left,
 			psVar15->nextIndex_backward,
 			psVar15->nextIndex_right);
 			#endif
-			
+
 			if (
-					(uVar22 == uVar16) || 
-					(uVar22 == psVar15->nextIndex_forward) || 
-					(uVar22 == psVar15->nextIndex_left) || 
-					(uVar22 == psVar15->nextIndex_backward) || 
+					(uVar22 == uVar16) ||
+					(uVar22 == psVar15->nextIndex_forward) ||
+					(uVar22 == psVar15->nextIndex_left) ||
+					(uVar22 == psVar15->nextIndex_backward) ||
 					(uVar22 == psVar15->nextIndex_right)
 				)
 			{
@@ -158,7 +151,7 @@ void DECOMP_CAM_ThTick(struct Thread *t)
 	if ((psVar21 == 0) || (psVar21 == cDC->currEOR)) goto SkipNewCameraEOR;
 
 	cDC->currEOR = (int)psVar21;
-	
+
 	sVar6 = *psVar21;
 	psVar19 = psVar21 + 1;
 	sVar5 = sVar6;
@@ -221,22 +214,22 @@ void DECOMP_CAM_ThTick(struct Thread *t)
 			cDC->driverOffset_CamEyePos[0] = *psVar19;
 			cDC->driverOffset_CamEyePos[1] = psVar21[2];
 			cDC->driverOffset_CamEyePos[2] = psVar21[3];
-			
+
 			cDC->driverOffset_CamLookAtPos[0] = psVar21[4];
 			cDC->driverOffset_CamLookAtPos[1] = psVar21[5];
 			cDC->driverOffset_CamLookAtPos[2] = psVar21[6];
-			
+
 			// driverOffset_CamEyePos
 			sVar6 = *psVar19;
 			sVar5 = psVar21[2];
 			sVar1 = psVar21[3];
-			
+
 			iVar7 = DECOMP_VehCalc_MapToRange(
-				(int)sVar6 * (int)sVar6 + 
-				(int)sVar5 * (int)sVar5 + 
-				(int)sVar1 * (int)sVar1, 
+				(int)sVar6 * (int)sVar6 +
+				(int)sVar5 * (int)sVar5 +
+				(int)sVar1 * (int)sVar1,
 				0x10000, 0x190000, 0x80, 0xf0);
-			
+
 			cDC->unk7A = (short)iVar7;
 			break;
 		case 9:
@@ -253,16 +246,16 @@ void DECOMP_CAM_ThTick(struct Thread *t)
 			(cDC->transitionTo).rot[2] = psVar21[7];
 			*(short *)&cDC->unk_b0[0] = psVar21[8];
 			break;
-			
+
 		// Spin360
 		case 10:
-			
+
 			// spinSpeed
 			sVar6 = FPS_HALF(*psVar19);
-			
+
 			psVar19 = psVar21 + 2;
 			goto LAB_8001b928;
-			
+
 		case 11:
 			sVar6 = *(short *)&pb->distanceToScreen_CURR;
 			pb->pos[0] = *psVar19;
@@ -297,13 +290,13 @@ SkipNewCameraEOR:
 	{
 		sVar5 = cDC->cameraMode;
 		*(short*)&cDC->data14[0x12] = 0;
-		
+
 		if (sVar6 != 0)
 		{
 			if (sVar6 == 4)
 			{
 LAB_8001c11c:
-				DECOMP_CAM_LookAtPosition((int)scratchpad, d->posCurr, pb->pos, pb->rot);
+				DECOMP_CAM_LookAtPosition((int)scratchpad, &d->posCurr.x, &pb->pos[0], &pb->rot[0]);
 				psVar21 = scratchpad;
 LAB_8001c128:
 				scratchpad = psVar21;
@@ -324,14 +317,21 @@ LAB_8001c128:
 						{
 							cDC->unk8E = 0;
 						}
-						local_28 = (short)((u_int)d->posCurr[0] >> 8);
-						local_26 = (short)((u_int)d->posCurr[1] >> 8);
-						local_24 = (short)((u_int)d->posCurr[2] >> 8);
-						iVar8 = CAM_MapRange_PosPoints((cDC->transitionTo).pos, (cDC->transitionTo).rot, &local_28);
+						
+						short stackMemPos[3];
+						
+						stackMemPos[0] = (short)((u_int)d->posCurr.x >> 8);
+						stackMemPos[1] = (short)((u_int)d->posCurr.y >> 8);
+						stackMemPos[2] = (short)((u_int)d->posCurr.z >> 8);
+						
+						iVar8 = CAM_MapRange_PosPoints((cDC->transitionTo).pos, (cDC->transitionTo).rot, &stackMemPos[0]);
+						
 						iVar17 = (int)*(short *)(&cDC->unk_b0[6]);
-						local_28 = *(short *)&cDC->unk_b0[0] - (cDC->transitionTo).rot[0];
-						local_26 = *(short *)&cDC->unk_b0[2] - (cDC->transitionTo).rot[1];
-						local_24 = *(short *)&cDC->unk_b0[4] - (cDC->transitionTo).rot[2];
+						
+						stackMemPos[0] = *(short *)&cDC->unk_b0[0] - (cDC->transitionTo).rot[0];
+						stackMemPos[1] = *(short *)&cDC->unk_b0[2] - (cDC->transitionTo).rot[1];
+						stackMemPos[2] = *(short *)&cDC->unk_b0[4] - (cDC->transitionTo).rot[2];
+						
 						iVar7 = iVar17;
 						if (iVar17 < 0)
 						{
@@ -339,11 +339,16 @@ LAB_8001c128:
 						}
 						if (iVar17 < 0)
 						{
-							local_28 = -local_28;
-							local_26 = -local_26;
-							local_24 = -local_24;
+							stackMemPos[0] = -stackMemPos[0];
+							stackMemPos[1] = -stackMemPos[1];
+							stackMemPos[2] = -stackMemPos[2];
 						}
-						iVar24 = SquareRoot0_stub((int)local_28 * (int)local_28 + (int)local_26 * (int)local_26 + (int)local_24 * (int)local_24);
+						
+						iVar24 = SquareRoot0_stub(
+							(int)stackMemPos[0] * (int)stackMemPos[0] + 
+							(int)stackMemPos[1] * (int)stackMemPos[1] + 
+							(int)stackMemPos[2] * (int)stackMemPos[2]);
+						
 						iVar18 = cDC->unk94 << 0xc;
 						iVar25 = iVar18 / iVar24;
 						/*
@@ -381,16 +386,16 @@ LAB_8001c128:
 						{
 							psVar21 = (short *)&cDC->unk_b0[0];
 						}
-						pb->pos[0] = *psVar21 + (short)(local_28 * iVar25 >> 0xc);
-						pb->pos[1] = psVar21[1] + (short)(local_26 * iVar25 >> 0xc);
-						pb->pos[2] = psVar21[2] + (short)(local_24 * iVar25 >> 0xc);
+						pb->pos[0] = psVar21[0] + (short)((stackMemPos[0] * iVar25) >> 0xc);
+						pb->pos[1] = psVar21[1] + (short)((stackMemPos[1] * iVar25) >> 0xc);
+						pb->pos[2] = psVar21[2] + (short)((stackMemPos[2] * iVar25) >> 0xc);
 						goto LAB_8001c11c;
 					}
 					if (sVar6 == 7)
 					{
-						pb->pos[0] = (short)((u_int)d->posCurr[0] >> 8);
-						pb->pos[1] = (cDC->transitionTo).pos[0] + (short)((u_int)d->posCurr[1] >> 8);
-						pb->pos[2] = (short)((u_int)d->posCurr[2] >> 8);
+						pb->pos[0] = (short)((u_int)d->posCurr.x >> 8);
+						pb->pos[1] = (cDC->transitionTo).pos[0] + (short)((u_int)d->posCurr.y >> 8);
+						pb->pos[2] = (short)((u_int)d->posCurr.z >> 8);
 						sVar6 = (cDC->transitionTo).pos[1];
 						pb->rot[1] = 0;
 						pb->rot[2] = 0;
@@ -403,10 +408,10 @@ LAB_8001c128:
 					}
 					else if ((u_short)(sVar5 - 0xfU) < 2)
 					{
-						pb->pos[0] = sdata->FirstPersonCamera.posOffset[0] + (short)((u_int)d->posCurr[0] >> 8);
-						pb->pos[1] = sdata->FirstPersonCamera.posOffset[1] + (short)((u_int)d->posCurr[1] >> 8);
-						pb->pos[2] = sdata->FirstPersonCamera.posOffset[2] + (short)((u_int)d->posCurr[2] >> 8);
-						
+						pb->pos[0] = sdata->FirstPersonCamera.posOffset[0] + (short)((u_int)d->posCurr.x >> 8);
+						pb->pos[1] = sdata->FirstPersonCamera.posOffset[1] + (short)((u_int)d->posCurr.y >> 8);
+						pb->pos[2] = sdata->FirstPersonCamera.posOffset[2] + (short)((u_int)d->posCurr.z >> 8);
+
 						pb->rot[0] = sdata->FirstPersonCamera.rotOffset[0] + (d->rotCurr).x;
 						pb->rot[1] = sdata->FirstPersonCamera.rotOffset[1] + (d->rotCurr).y;
 						pb->rot[2] = sdata->FirstPersonCamera.rotOffset[2] + (d->rotCurr).z;
@@ -439,30 +444,30 @@ LAB_8001c128:
 							if ((gGT->level1->cnt_restart_points != 0) && ((gGT->gameMode1 & 0xf) == 0))
 							{
 								uVar9 = CAM_FollowDriver_TrackPath(
-											cDC, (short *)0x1f800390, 
-											FPS_HALF(*(short *)&cDC->unk_b0[0]), 
+											cDC, (short *)0x1f800390,
+											FPS_HALF(*(short *)&cDC->unk_b0[0]),
 											1);
-								
+
 								iVar7 = -0xc0;
 								if (-1 < *(short *)&cDC->unk_b0[0])
 									iVar7 = 0xc0;
-								
+
 								uVar10 = CAM_FollowDriver_TrackPath(
-											cDC, (short *)0x1f800398, 
-											FPS_HALF(iVar7), 
+											cDC, (short *)0x1f800398,
+											FPS_HALF(iVar7),
 											0);
-								
+
 								// interpolate two rotations
-								
+
 								// ERROR: 0x1f800316 is bugged, we set to zero
 								// to prevent the camera from flying away, but it should not be zero,
 								// see Demo Mode on Crash Cove and Roo's Tubes
-								
+
 								iVar8 = ((int)(((uVar10 - uVar9) + 0x800U & 0xfff) - 0x800) >> 1);
 								*(short *)0x1f800314 = 0x800;
 								*(short *)0x1f800316 = 0;//(short)uVar9 + (short)iVar8;
 								*(short *)0x1f800318 = 0;
-								
+
 								// interpolate two positions
 								*(short *)0x1f800390 = (short)((int)(*(short *)0x1f800390) + (int)(*(short *)0x1f800398) >> 1);
 								*(short *)0x1f800392 = (short)((int)(*(short *)0x1f800392) + (int)(*(short *)0x1f80039a) >> 1);
@@ -494,9 +499,9 @@ LAB_8001c128:
 					}
 					goto LAB_8001c128;
 				}
-				
-				DECOMP_CAM_LookAtPosition((int)0x1f800108, d->posCurr, pb->pos, pb->rot);
-				
+
+				DECOMP_CAM_LookAtPosition((int)0x1f800108, &d->posCurr.x, &pb->pos[0], &pb->rot[0]);
+
 				iVar7 = SquareRoot0_stub((*(int *)0x1f800354) * (*(int *)0x1f800354) + (*(int *)0x1f80035c) * (*(int *)0x1f80035c));
 				iVar17 = (int)(cDC->transitionTo).pos[0];
 				iVar24 = (iVar7 - (cDC->transitionTo).pos[1]) * iVar17;
@@ -524,18 +529,18 @@ LAB_8001c128:
 				}
 				pb->distanceToScreen_PREV = pb->distanceToScreen_CURR + iVar7;
 			}
-			
+
 			*(int *)0x1f800348 = (int)pb->pos[0];
 			*(int *)0x1f80034c = (int)pb->pos[1];
 			*(int *)0x1f800350 = (int)pb->pos[2];
-			
+
 			CAM_FindClosestQuadblock(scratchpad, cDC, d, (short *)((u_int)scratchpad | 0x240));
 			goto LAB_8001c150;
 		}
 	}
 
 	CAM_FollowDriver_Normal(cDC, d, &pb->pos[0], 0x1f800108, ptrZoomData);
-	
+
 LAB_8001c150:
 	cDC->cameraModePrev = cDC->cameraMode;
 
@@ -590,6 +595,6 @@ LAB_8001c150:
 		cDC->flags &= ~1;
 	}
 	cDC->flags &= ~0x88;
-	
+
 	return;
 }

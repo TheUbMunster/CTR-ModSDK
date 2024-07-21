@@ -1,7 +1,7 @@
 #ifndef ONLINE_GLOBAL_H
 #define ONLINE_GLOBAL_H
 
-#define VERSION 1017
+#define VERSION 1019
 //#define ONLINE_BETA_MODE
 
 #ifndef WINDOWS_INCLUDE
@@ -22,8 +22,8 @@
 
 #endif
 
-#define true				            1
-#define false				            0
+//#define true				1
+//#define false				0
 
 #define DONT_SHOW_NAME		            0
 #define SHOW_NAME			            1
@@ -57,7 +57,7 @@ enum ClientState
 	NUM_STATES
 };
 
-#define NAME_LEN 10
+#define NAME_LEN 9
 #define MAX_NUM_PLAYERS 8
 
 typedef struct raceStats
@@ -67,7 +67,7 @@ typedef struct raceStats
 	int bestLap;
 } raceStats;
 
-// This can be 0x400 bytes max:
+// This can be 0x400 (1024) bytes max:
 // 0x8000C000 at 0x8000C400
 struct OnlineCTR
 {
@@ -116,7 +116,7 @@ struct OnlineCTR
 	char boolLockedInCharacters[MAX_NUM_PLAYERS];
 
 	// 0x38
-	char nameBuffer[MAX_NUM_PLAYERS][NAME_LEN];
+	char nameBuffer[MAX_NUM_PLAYERS][NAME_LEN + 1]; //+1 for nullterm
 
 	raceStats raceStats[MAX_NUM_PLAYERS];
 
@@ -139,7 +139,15 @@ struct OnlineCTR
 
     // Last windowsClientSync counter
 	char lastWindowsClientSync;
+
+	char desiredFPS;
+
+#ifdef PINE_DEBUG
+	int stateChangeCounter;
+#endif
 };
+
+STATIC_ASSERT2(sizeof(struct OnlineCTR) <= 0x400, "Size of OnlineCTR must be lte 1kb");
 
 #define MAX_LAPS 7
 #define CPS_PER_LAP 2
@@ -269,7 +277,7 @@ struct SG_MessageName
 	unsigned char clientID : 4;
 	unsigned char numClientsTotal : 4;
 
-	char name[NAME_LEN];
+	char name[NAME_LEN + 1];
 };
 
 // get track, assigned by host
@@ -409,7 +417,7 @@ struct CG_MessageName
 	unsigned char type : 4;
 	unsigned char padding : 4;
 
-	char name[NAME_LEN];
+	char name[NAME_LEN + 1];
 };
 
 // get track, assigned by host

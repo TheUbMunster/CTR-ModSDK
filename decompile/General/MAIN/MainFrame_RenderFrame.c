@@ -318,9 +318,7 @@ void DECOMP_MainFrame_RenderFrame(struct GameTracker* gGT, struct GamepadSystem*
 		RenderDispEnv_World(gGT); // == RenderDispEnv_World ==
 
 		// We just draw full wumpa geometry instead
-		#if 0
 		MultiplayerWumpaHUD(gGT);
-		#endif
 
 		#if 0
 		// Multiplayer Pixel LOD Part 3
@@ -338,12 +336,14 @@ void DECOMP_MainFrame_RenderFrame(struct GameTracker* gGT, struct GamepadSystem*
 		{
 			DECOMP_DotLights(gGT);
 
+			#ifndef USE_ONLINE
 			if((gGT->renderFlags & 0x8000) != 0)
 			{
 				WindowBoxLines(gGT);
+
 				WindowDivsionLines(gGT);
 			}
-
+			#endif
 		}
 
 #ifndef REBUILD_PS1
@@ -1479,14 +1479,34 @@ SkyboxGlow:
 
 void MultiplayerWumpaHUD(struct GameTracker* gGT)
 {
+	// must also work for 1P, or Online breaks
+	for(int i = 0; i < gGT->numPlyrCurrGame; i++)
+	{
+		struct Driver* d = gGT->drivers[i];
+
+		// if race is over for driver
+		if((d->actionsFlagSet & 0x2000000) != 0)
+		{
+			struct Instance* instFruitDisp =
+				d->instFruitDisp;
+
+			instFruitDisp->scale[0] = 0;
+			instFruitDisp->scale[1] = 0;
+			instFruitDisp->scale[2] = 0;
+		}
+	}
+
 	if((gGT->hudFlags & 1) == 0) return;
 	if(gGT->numPlyrCurrGame < 2) return;
 
-#ifndef REBUILD_PS1
+	// we just draw 3D Wumpa instead of 2D,
+	// come back to this later for purists
+	#if 0
 	UI_RenderFrame_Wumpa3D_2P3P4P(gGT);
-#endif
+	#endif
 }
 
+#ifndef USE_ONLINE
 void WindowBoxLines(struct GameTracker* gGT)
 {
 	int i;
@@ -1632,6 +1652,7 @@ void WindowDivsionLines(struct GameTracker* gGT)
 		gGT->backBuffer->primMem.curr = (void*)(p + 1);
     }
 }
+#endif
 
 void RenderDispEnv_UI(struct GameTracker* gGT)
 {
@@ -1663,6 +1684,10 @@ int ReadyToBreak(struct GameTracker* gGT)
 		gGT->vSync_between_drawSync > 6;
 }
 
+#ifdef USE_ONLINE
+#include "../AltMods/OnlineCTR/global.h"
+#endif
+
 void RenderVSYNC(struct GameTracker* gGT)
 {
 	// render checkered flag
@@ -1670,6 +1695,10 @@ void RenderVSYNC(struct GameTracker* gGT)
 	{
 		VSync(0);
 	}
+
+	#ifdef USE_ONLINE
+	int boolFirstFrame = 1;
+	#endif
 
 	while(1)
 	{
@@ -1685,6 +1714,13 @@ void RenderVSYNC(struct GameTracker* gGT)
 			// quit, end of stall
 			return;
 		}
+
+#ifdef USE_ONLINE
+		// gpu submission is not too late,
+		// we got to this while() loop before
+		// the flip was ready, so we're on-time
+		boolFirstFrame = 0;
+#endif
 
 #ifndef REBUILD_PC
 		if(ReadyToBreak(gGT))
