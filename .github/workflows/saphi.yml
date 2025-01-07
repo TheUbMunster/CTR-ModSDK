@@ -1,0 +1,51 @@
+name: Build saphi
+
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-saphi-server-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: true
+      - name: ls
+        run: ls -la /Saphi/Server
+      - name: build
+        run: make -C /Saphi/Server server
+      - name: ls
+        run: ls -la /Saphi/Server
+      #- name: compress
+      #  run: tar -f SaphiServer-linux-x64.tar.gz -c server
+      #- name: Release
+      #  uses: softprops/action-gh-release@v2
+      #  with:
+      #    files: SaphiServer-linux-x64.tar.gz
+  build-saphi-client-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: true
+      - name: ls
+        run: ls -la /Saphi/Client
+      - name: build
+        run: make -C /Saphi/Client duck
+      - name: ls
+        run: ls -la /Saphi/Client
+      #- name: compress
+      #  run: tar -f SaphiClient-duck-linux-x64.tar.gz -c duck
+      #- name: Release
+      #  uses: softprops/action-gh-release@v2
+      #  with:
+      #    files: SaphiClient-duck-linux-x64.tar.gz
