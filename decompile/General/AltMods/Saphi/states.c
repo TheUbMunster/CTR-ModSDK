@@ -65,7 +65,8 @@ char* gameModifiers[] =
 	"  MIRROR",
 	"  RETROFUELED",
 	"  DEMOCAM",
-	"  CATCH UP"
+	"  CATCH UP",
+	"  ENGINE PICK",
 };
 
 char* engineTypes[] =
@@ -283,13 +284,13 @@ void Draw_Lobby_HostModifiersPick(uint8_t pageNumber)
 	{
 		int modifierId = i + (ELEMENTS_PER_PAGE * pageNumber);
 		int modifierPresent = (octr->onlineGameModifiers >> modifierId) & 1;
-		if (i < GMMCOUNT)
+		if (modifierId < GMMCOUNT)
 		{
 			gameModifiers[modifierId][0] = (modifierPresent ? 'E' : 'D');
 			SetRowSelectable(i, true); //was modifierPresent
 			SetRowString(i, gameModifiers[modifierId]);
 		}
-		else if (i == GMMCOUNT)
+		else if (modifierId == GMMCOUNT)
 		{
 			SetRowSelectable(i, true);
 			SetRowString(i, "CONFIRM");
@@ -499,11 +500,16 @@ void StatePS1_Lobby_CharacterPick()
 	{
 		case 0: //engine type
 		{
-			//set the draw function to engine pick
-			void Draw_Lobby_EnginePick(uint8_t);
-			SetMenuContents(Draw_Lobby_EnginePick, ETPC, false);
+			if ((octr->onlineGameModifiers & MODIFIER_ENGINEPICK))
+			{
+				//set the draw function to engine pick
+				void Draw_Lobby_EnginePick(uint8_t);
+				SetMenuContents(Draw_Lobby_EnginePick, ETPC, false);
+				break;
+			}
+			else step = 1;
+			//otherwise, fall through and move straight to character pick instead.
 		}
-		break;
 		case 1: //character
 		{
 			//set the draw function to character pick

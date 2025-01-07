@@ -70,7 +70,7 @@ const CG_Message State::Launch_PickServer(OnlineCTR& octr)
 		break;
 	case 7:
 		hostName = "beta.projectsaphi.com";
-		port = 25565;
+		port = 65001;
 		break;
 	default:
 		return msg;

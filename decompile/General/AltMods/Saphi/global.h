@@ -63,6 +63,12 @@ enum ClientState
 	NUM_STATES_FUNCS
 };
 
+/* Known bugs:
+onlineGameModifiers sometimes gets modified in unpredictable ways
+sometimes the mirroring of controls caused by MODIFIER_MIRROR isn't undone when the player is done playing mirror mode.
+The menu entries for the enginepicker are sometimes squished together (e.g., once it said "accelspeed" all one one line
+*/
+
 //NOTICE: currently "MODIFIER_MIRROR"'s functionality is enabled, but this is a substantial byte budget hit.
 //to disable it, comment the '#include "Saphi/zMirrorMode.c"' at the top of Mods1.c, and comment the
 //"&& 0" from the "#if defined(USE_SAPHI) && 0" at the bottom of MainFrame_RenderFrame.c
@@ -78,7 +84,9 @@ enum OnlineGameModifiers
 	MODIFIER_RETROFUELED = (1 << 4), //does not include STP by default
 	MODIFIER_DEMOCAM     = (1 << 5), //camera system is the same as the demo system
 	MODIFIER_CATCHUP     = (1 << 6), //wumpa and/or boost is more effective in last place vs first
-	//MODIFIER_PRIVATE     = (1 << 7), //private room w/ passcode
+	MODIFIER_ENGINEPICK  = (1 << 7), //allows picking custom engine
+	//MODIFIER_PRIVATE     = (1 << 8), //private room w/ passcode
+	//MODIFIER_VOTE        = (1 << 9), //instead of host picking track, people in the lobby vote and then it randomly picks one (5 laps)
 };
 
 enum OnlineGameModeList
