@@ -21,7 +21,7 @@ jobs:
       - name: ls
         run: ls -la Saphi/Server
       - name: build
-        run: make -C Saphi/Server server
+        run: (cd Saphi/Server && make server)
       - name: ls
         run: ls -la Saphi/Server
       #- name: compress
@@ -40,7 +40,7 @@ jobs:
       - name: ls
         run: ls -la Saphi/Client
       - name: build
-        run: make -C Saphi/Client duck
+        run: (cd Saphi/Client && make duck)
       - name: ls
         run: ls -la Saphi/Client
       #- name: compress
