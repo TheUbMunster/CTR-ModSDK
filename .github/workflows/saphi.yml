@@ -19,11 +19,11 @@ jobs:
           fetch-depth: 0
           submodules: true
       - name: ls
-        run: ls -la /Saphi/Server
+        run: ls -la Saphi/Server
       - name: build
         run: make -C /Saphi/Server server
       - name: ls
-        run: ls -la /Saphi/Server
+        run: ls -la Saphi/Server
       #- name: compress
       #  run: tar -f SaphiServer-linux-x64.tar.gz -c server
       #- name: Release
@@ -38,11 +38,11 @@ jobs:
           fetch-depth: 0
           submodules: true
       - name: ls
-        run: ls -la /Saphi/Client
+        run: ls -la Saphi/Client
       - name: build
         run: make -C /Saphi/Client duck
       - name: ls
-        run: ls -la /Saphi/Client
+        run: ls -la Saphi/Client
       #- name: compress
       #  run: tar -f SaphiClient-duck-linux-x64.tar.gz -c duck
       #- name: Release
