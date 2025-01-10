@@ -20,6 +20,12 @@ jobs:
           submodules: true
       - name: ls
         run: ls -la Saphi/Server
+      - name: ls
+        run: ls -la externals/fmtlog
+      - name: ls
+        run: ls -la externals/fmtlog/fmt
+      - name: ls
+        run: ls -la externals/fmtlog/fmt/include/fmt
       - name: build
         run: (cd Saphi/Server && make server)
       - name: ls
