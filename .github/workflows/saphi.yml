@@ -48,6 +48,7 @@ jobs:
           pkg-config --libs libzip
           which pkg-config
           pkg-config --modversion libzip
+          ld --verbose | grep /usr/lib/x86_64-linux-gnu
       - name: build
         run: (cd Saphi/Client && make duck)
       - name: compress
