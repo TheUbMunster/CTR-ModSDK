@@ -18,40 +18,26 @@ jobs:
         with:
           fetch-depth: 0
           submodules: recursive
-      - name: ls
-        run: ls -la Saphi/Server
-      - name: ls
-        run: ls -la externals/fmtlog
-      - name: ls
-        run: ls -la externals/fmtlog/fmt
-      - name: ls
-        run: ls -la externals/fmtlog/fmt/include/fmt
       - name: build
         run: (cd Saphi/Server && make server)
-      - name: ls
-        run: ls -la Saphi/Server
-      #- name: compress
-      #  run: tar -f SaphiServer-linux-x64.tar.gz -c server
-      #- name: Release
-      #  uses: softprops/action-gh-release@v2
-      #  with:
-      #    files: SaphiServer-linux-x64.tar.gz
+      - name: compress
+        run: tar -f SaphiServer-linux-x64.tar.gz -c Server
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: SaphiServer-linux-x64.tar.gz
   build-saphi-client-linux:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          submodules: true
-      - name: ls
-        run: ls -la Saphi/Client
+          submodules: recursive
       - name: build
         run: (cd Saphi/Client && make duck)
-      - name: ls
-        run: ls -la Saphi/Client
-      #- name: compress
-      #  run: tar -f SaphiClient-duck-linux-x64.tar.gz -c duck
-      #- name: Release
-      #  uses: softprops/action-gh-release@v2
-      #  with:
-      #    files: SaphiClient-duck-linux-x64.tar.gz
+      - name: compress
+        run: tar -f SaphiClient-duck-linux-x64.tar.gz -c Client
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: SaphiClient-duck-linux-x64.tar.gz
