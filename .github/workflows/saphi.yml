@@ -33,8 +33,11 @@ jobs:
         with:
           fetch-depth: 0
           submodules: recursive
-      - name: install sdl
-        run: sudo apt install libsdl2-dev
+      - name: install os packages
+        run: |
+          sudo apt install libsdl2-dev
+          sudo apt install libsdl2-image-dev
+          sudo apt install libzip-dev
       - name: build
         run: (cd Saphi/Client && make duck)
       - name: compress
