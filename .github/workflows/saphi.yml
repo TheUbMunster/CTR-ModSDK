@@ -12,6 +12,7 @@ permissions:
 
 jobs:
   build-saphi-server-linux:
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,6 +28,7 @@ jobs:
         with:
           files: SaphiServer-linux-x64.tar.gz
   build-saphi-client-linux:
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
