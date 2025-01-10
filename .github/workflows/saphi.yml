@@ -42,13 +42,15 @@ jobs:
           sudo apt install libsdl2-dev
           sudo apt install libsdl2-image-dev
           sudo apt install libzip-dev
-          sudo ldconfig
-          find /usr -name "libzip.so*"
-          pkg-config --libs --cflags libzip
-          pkg-config --libs libzip
-          which pkg-config
-          pkg-config --modversion libzip
-          ld --verbose | grep /usr/lib/x86_64-linux-gnu
+          #sudo ldconfig
+          #find /usr -name "libzip.so*"
+          #pkg-config --libs --cflags libzip
+          #pkg-config --libs libzip
+          #which pkg-config
+          #pkg-config --modversion libzip
+          #ld --verbose | grep /usr/lib/x86_64-linux-gnu
+          echo LD_LIBRARY_PATH
+          unset LD_LIBRARY_PATH
       - name: build
         run: (cd Saphi/Client && make duck)
       - name: compress
