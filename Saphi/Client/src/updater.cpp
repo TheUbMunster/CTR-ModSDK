@@ -7,7 +7,6 @@
 #include <CRC.h>
 #include <fstream>
 #include <filesystem>
-#include <format>
 #include <fmtlog.h>
 
 Updater::Updater()
@@ -143,10 +142,8 @@ void Updater::Update(std::string& status, IconType& statusIcon, std::string& cur
 #endif
       if (!hasEmulator)
       {
-        //NOTE: the custom messages generated via std::format, and then passed to updateStatus()
-        //probably aren't in the translation table.
         const std::filesystem::path u8emuFolder = std::u8string(emuFolder.begin(), emuFolder.end());
-        updateStatus(std::format("Downloading {}...", emuTarget), IconType::RUNNING);
+        updateStatus("Downloading " + emuTarget + "...", IconType::RUNNING);
         logi("Downloading emulator...");
         if (!std::filesystem::is_directory(u8emuFolder)) { std::filesystem::create_directory(u8emuFolder); }
         if (emuFolder != emuDlFolder)
@@ -156,17 +153,17 @@ void Updater::Update(std::string& status, IconType& statusIcon, std::string& cur
         }
         if (!Requests::DownloadFile(domain, emuPath, emuDlFolder + emuArchive))
         {
-          updateStatus(std::format("Error: could not download {}.", emuTarget), IconType::FAIL);
+          updateStatus("Error: could not download " + emuTarget + ".", IconType::FAIL);
           logw("Error: could not download emulator...");
           return false;
         }
         //windows ZIP needs to be decompressed, as well as redux on linux is a ZIP of an appimage.
 #if defined(_WIN32) || (defined(__linux__) && defined(_DEBUG))
-        updateStatus(std::format("Decompressing {}...", emuTarget), IconType::RUNNING);
+        updateStatus("Decompressing " + emuTarget + "...", IconType::RUNNING);
         logi("Decompressing emulator...");
         if (!IO::DecompressFiles(emuDlFolder, emuArchive))
         {
-          updateStatus(std::format("Error: could not decompress {}.", emuTarget), IconType::FAIL);
+          updateStatus("Error: could not decompress " + emuTarget + ".", IconType::FAIL);
           logw("Error: could not decompress emulator.");
           return false;
         }
