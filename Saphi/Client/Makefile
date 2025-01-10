@@ -101,7 +101,8 @@ LIBS_STATIC = -Wl,-Bstatic \
 -lwebp \
 -lzstd \
 -ljbig \
--lzip \
+#-lzip \
+/usr/lib/x86_64-linux-gnu/libzip.so \
 -ldeflate \
 -Wl,-Bdynamic \
 -lGL \
