@@ -31,6 +31,8 @@ jobs:
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
+      - name: setx
+        run: set -x    
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -41,7 +43,11 @@ jobs:
           sudo apt install libsdl2-image-dev
           sudo apt install libzip-dev
           sudo ldconfig
+          find /usr -name "libzip.so*"
           pkg-config --libs --cflags libzip
+          pkg-config --libs libzip
+          which pkg-config
+          pkg-config --modversion libzip
       - name: build
         run: (cd Saphi/Client && make duck)
       - name: compress

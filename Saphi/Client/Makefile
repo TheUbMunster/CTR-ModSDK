@@ -143,7 +143,6 @@ EXTRA_DEFINES__DEBUG := -D_DEBUG
 #target-specific values from any other targets.
 
 $(foreach src,$(SRCS),$(eval $(BUILD_DIR)/$(call hash,$(src)).o: $(src) build_dir ; \
-	set -x ; \
 	@echo "Compiling $$< to $$@" ; \
 	$$(CC) -c $$< -o $$@ $$(COMMON_CXXFLAGS) $$(EXTRA_CXXFLAGS) $$(EXTRA_DEFINES) ; \
 	))
