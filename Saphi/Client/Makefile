@@ -76,7 +76,9 @@ $(LIBS) \
 -I../../externals/cpp-httplib \
 -I../../externals/CRCpp/inc \
 -I../../externals/enet/include \
--I../../externals/xdelta/xdelta3/
+-I../../externals/xdelta/xdelta3/ \
+-I../../externals/fmtlog/fmt/include/ \
+-I../../externals/fmtlog/
 
 #========================================================
 #LIBRARY LINK TYPE FLAGS
