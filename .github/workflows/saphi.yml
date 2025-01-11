@@ -11,7 +11,7 @@ permissions:
   id-token: write
 
 jobs:
-  build-saphi-server-linux:
+  build-saphi-server-linux-release:
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
@@ -22,34 +22,53 @@ jobs:
       - name: build
         run: (cd Saphi/Server && make -j $(getconf _NPROCESSORS_ONLN) server)
       - name: compress
-        run: tar -f SaphiServer-linux-x64.tar.gz -c Saphi/Server/Server
+        run: tar -f SaphiServer-linux-release-x64.tar.gz -c Saphi/Server/Server
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: SaphiServer-linux-x64.tar.gz
-  build-saphi-client-linux:
+          files: SaphiServer-linux-release-x64.tar.gz
+  build-saphi-server-linux-debug:
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
-      - name: setx
-        run: set -x    
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: recursive
-      - name: install os packages
-        run: |
-          sudo apt install libsdl2-dev
-          sudo apt install libsdl2-image-dev
-          sudo apt install libzip-dev
-          sudo ldconfig
       - name: build
-        run: |
-          g++ --version
-          (cd Saphi/Client && unset LD_LIBRARY_PATH && make -j $(getconf _NPROCESSORS_ONLN) duck)
+        run: (cd Saphi/Server && make -j $(getconf _NPROCESSORS_ONLN) server-debug)
       - name: compress
-        run: tar -f SaphiClient-duck-linux-x64.tar.gz -c Saphi/Client/Client
+        run: tar -f SaphiServer-linux-debug-x64.tar.gz -c Saphi/Server/Server
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: SaphiClient-duck-linux-x64.tar.gz
+          files: SaphiServer-linux-debug-x64.tar.gz
+
+#  I cannot, for the life of me, get this to work
+
+#  build-saphi-client-linux:
+#    permissions: write-all
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: setx
+#        run: set -x    
+#      - uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 0
+#          submodules: recursive
+#      - name: install os packages
+#        run: |
+#          sudo apt install libsdl2-dev
+#          sudo apt install libsdl2-image-dev
+#          sudo apt install libzip-dev
+#          sudo ldconfig
+#      - name: build
+#        run: |
+#          g++ --version
+#          (cd Saphi/Client && unset LD_LIBRARY_PATH && make -j $(getconf _NPROCESSORS_ONLN) duck)
+#      - name: compress
+#        run: tar -f SaphiClient-duck-linux-x64.tar.gz -c Saphi/Client/Client
+#      - name: Release
+#        uses: softprops/action-gh-release@v2
+#        with:
+#          files: SaphiClient-duck-linux-x64.tar.gz

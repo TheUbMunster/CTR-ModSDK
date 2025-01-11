@@ -101,7 +101,7 @@ LIBS_STATIC = -Wl,-Bstatic \
 -lwebp \
 -lzstd \
 -ljbig \
-#-lzip \
+-lzip \
 -ldeflate \
 -Wl,-Bdynamic \
 -lGL \
@@ -158,7 +158,8 @@ duck: LIBS = $(LIBS_STATIC)
 duck: EXTRA_CXXFLAGS = $(RELEASE_CXXFLAGS)
 duck: $(OBJS)
 	#export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
-	$(CC) $(OBJS) /usr/lib/x86_64-linux-gnu/libzip.so -o $(TARGET) $(COMMON_CXXFLAGS) $(EXTRA_CXXFLAGS) $(EXTRA_DEFINES) 
+	# /usr/lib/x86_64-linux-gnu/libzip.so
+	$(CC) $(OBJS) -o $(TARGET) $(COMMON_CXXFLAGS) $(EXTRA_CXXFLAGS) $(EXTRA_DEFINES)
 
 redux: LIBS = $(LIBS_STATIC)
 redux: EXTRA_CXXFLAGS = $(RELEASE_CXXFLAGS)
