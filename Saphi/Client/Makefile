@@ -101,8 +101,7 @@ LIBS_STATIC = -Wl,-Bstatic \
 -lwebp \
 -lzstd \
 -ljbig \
-#-lzip \
-/usr/lib/x86_64-linux-gnu/libzip.so \
+-lzip \
 -ldeflate \
 -Wl,-Bdynamic \
 -lGL \
@@ -145,7 +144,7 @@ EXTRA_DEFINES__DEBUG := -D_DEBUG
 
 $(foreach src,$(SRCS),$(eval $(BUILD_DIR)/$(call hash,$(src)).o: $(src) build_dir ; \
 	@echo "Compiling $$< to $$@" ; \
-	$$(CC) -c $$< -o $$@ $$(COMMON_CXXFLAGS) $$(EXTRA_CXXFLAGS) $$(EXTRA_DEFINES) ; \
+	strace -f $$(CC) -c $$< -o $$@ $$(COMMON_CXXFLAGS) $$(EXTRA_CXXFLAGS) $$(EXTRA_DEFINES) ; \
 	))
 
 .PHONY: build_dir
@@ -158,7 +157,7 @@ build_dir:
 duck: LIBS = $(LIBS_STATIC)
 duck: EXTRA_CXXFLAGS = $(RELEASE_CXXFLAGS)
 duck: $(OBJS)
-	$(CC) $(OBJS) -o $(TARGET) $(COMMON_CXXFLAGS) $(EXTRA_CXXFLAGS) $(EXTRA_DEFINES)
+	strace -f $(CC) $(OBJS) -o $(TARGET) $(COMMON_CXXFLAGS) $(EXTRA_CXXFLAGS) $(EXTRA_DEFINES)
 
 redux: LIBS = $(LIBS_STATIC)
 redux: EXTRA_CXXFLAGS = $(RELEASE_CXXFLAGS)
