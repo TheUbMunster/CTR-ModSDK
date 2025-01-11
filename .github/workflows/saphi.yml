@@ -42,6 +42,8 @@ jobs:
           sudo apt install libsdl2-dev
           sudo apt install libsdl2-image-dev
           sudo apt install libzip-dev
+      - name: find
+        run: find /usr -name "libzip.a" -o -name "libzip.so"    
       - name: build
         run: (cd Saphi/Client && make duck)
       - name: compress
