@@ -144,7 +144,7 @@ EXTRA_DEFINES__DEBUG := -D_DEBUG
 
 $(foreach src,$(SRCS),$(eval $(BUILD_DIR)/$(call hash,$(src)).o: $(src) build_dir ; \
 	@echo "Compiling $$< to $$@" ; \
-	strace -f $$(CC) -c $$< -o $$@ $$(COMMON_CXXFLAGS) $$(EXTRA_CXXFLAGS) $$(EXTRA_DEFINES) ; \
+	$$(CC) -c $$< -o $$@ $$(COMMON_CXXFLAGS) $$(EXTRA_CXXFLAGS) $$(EXTRA_DEFINES) ; \
 	))
 
 .PHONY: build_dir
