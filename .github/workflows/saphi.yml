@@ -99,8 +99,8 @@ jobs:
         run: msbuild Saphi\Client\Client.vcxproj /p:configuration=release /p:Platform=x64
       - name: copy data
         run: |
-          mkdir Saphi\Client\x64\debug\data
-          xcopy Saphi\Client\data Saphi\Client\x64\debug\data /S
+          mkdir Saphi\Client\x64\release\data
+          xcopy Saphi\Client\data Saphi\Client\x64\release\data /S
       - name: zip
         run: Compress-Archive Saphi\Client\x64\release\ SaphiClient-windows-release-x64.zip
       - name: Release
