@@ -20,7 +20,7 @@ jobs:
           fetch-depth: 0
           submodules: recursive
       - name: build
-        run: (cd Saphi/Server && make server)
+        run: (cd Saphi/Server && make -j $(getconf _NPROCESSORS_ONLN) server)
       - name: compress
         run: tar -f SaphiServer-linux-x64.tar.gz -c Saphi/Server/Server
       - name: Release
@@ -42,7 +42,6 @@ jobs:
           sudo apt install libsdl2-dev
           sudo apt install libsdl2-image-dev
           sudo apt install libzip-dev
-          sudo > /etc/ld.so.cache
           sudo ldconfig
       - name: build
         run: (cd Saphi/Client && unset LD_LIBRARY_PATH && make -j $(getconf _NPROCESSORS_ONLN) duck)
