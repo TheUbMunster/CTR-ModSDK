@@ -42,12 +42,8 @@ jobs:
           sudo apt install libsdl2-dev
           sudo apt install libsdl2-image-dev
           sudo apt install libzip-dev
-          ls -la /usr/lib/x86_64-linux-gnu
-          #sudo apt remove java
-      - name: find
-        run: find /usr -name "libzip.a" -o -name "libzip.so"    
       - name: build
-        run: (cd Saphi/Client && unset LD_LIBRARY_PATH && make duck)
+        run: (cd Saphi/Client && unset LD_LIBRARY_PATH && make -j (getconf _NPROCESSORS_ONLN) duck)
       - name: compress
         run: tar -f SaphiClient-duck-linux-x64.tar.gz -c Saphi/Client/Client
       - name: Release
