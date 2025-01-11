@@ -145,12 +145,23 @@ jobs:
           pip install --upgrade pip setuptools wheel
           pip install -r requirements.txt
           sudo bash install_toolchain_prebuilt.sh
-      #- uses: actions/checkout@v4
-      #  with:
-      #    fetch-depth: 0
-      #    submodules: recursive
-      - name: Install deps
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+          path: 'games'
+      - name: Decrypt game iso
         run: |
+          echo todo # need game iso before any subsequent steps can work.
+      - name: Build xdelta
+        run: |
+          export PATH="$PATH:/opt/gcc-mipsel-none-elf/bin"
+          export PATH="$PATH:/opt/gcc-mipsel-none-elf/mipsel-none-elf/bin"
+          python tools/mod-builder/main.py 3 # extract iso
+          python tools/mod-builder/main.py 1 # compile
+          python tools/mod-builder/main.py 4 # build iso
+          python tools/mod-builder/main.py 5 # generate xdelta
+
           
 
 #  I cannot, for the life of me, get this to work
