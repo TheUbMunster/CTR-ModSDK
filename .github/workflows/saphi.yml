@@ -145,6 +145,7 @@ jobs:
       #  run:
       - name: Install toolchain deps
         run: |
+          cd psx-modding-toolchain
           ls -la
           pip install --upgrade pip setuptools wheel
           pip install -r requirements.txt
@@ -154,7 +155,7 @@ jobs:
         with:
           fetch-depth: 0
           submodules: recursive
-          path: 'games/CTR-ModSDK'
+          path: 'psx-modding-toolchain/games/CTR-ModSDK'
       #- name: ls
       #  run: |
       #    ls -la
@@ -164,8 +165,9 @@ jobs:
         run: sudo apt install gpg
       - name: download encrypted game iso
         run: |
-          mkdir -p games/CTR-ModSDK/build
-          cd games/CTR-ModSDK/build
+          cd psx-modding-toolchain/games/CTR-ModSDK
+          mkdir build
+          cd build
           wget ${{secrets.ISO_NTSCU_WGET_PATH}}
           gpg --output ctr-u.bin --batch --passphrase '${{secrets.ISO_NTSCU_DECRYPT_PASSPHRASE}}' -d ctr-u.bin.gpg
           rm ctr-u.bin.gpg
@@ -175,7 +177,7 @@ jobs:
         run: |
           export PATH="$PATH:/opt/gcc-mipsel-none-elf/bin"
           export PATH="$PATH:/opt/gcc-mipsel-none-elf/mipsel-none-elf/bin"
-          cd games/CTR-ModSDK/decompile
+          cd psx-modding-toolchain/games/CTR-ModSDK/decompile
           python ../../../tools/mod-builder/main.py 3 1 # extract iso
           python ../../../tools/mod-builder/main.py 1 1 # compile
           python ../../../tools/mod-builder/main.py 4 1 # build iso
