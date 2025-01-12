@@ -156,11 +156,13 @@ jobs:
         run: |
           #ls games #need filepath to build
           mkdir -p games/CTR-ModSDK/build
-          wget -P games/CTR-ModSDK/build ${{secrets.ISO_NTSCU_WGET_PATH}}
+          cd games/CTR-ModSDK/build
+          wget ${{secrets.ISO_NTSCU_WGET_PATH}}
           gpg --passphrase '${{secrets.ISO_NTSCU_DECRYPT_PASSPHRASE}}' -d ctr-u.bin.gpg
           rm ctr-u.bin.gpg
-          echo "canonic ctr-u.bin md5 sum is                  'ab95bfca8a4bb3d90daa6519acf6e944'"
-          echo "downloaded and decrypted ctr-u.bin md5 sum is '$(md5sum ctr-u.bin | cut -f 1 -d ' ')'"
+          echo "\033[1;36mcanonic ctr-u.bin md5 sum is                  'ab95bfca8a4bb3d90daa6519acf6e944'"
+          echo "\033[1;36mdownloaded and decrypted ctr-u.bin md5 sum is '$(md5sum ctr-u.bin | cut -f 1 -d ' ')'"
+          echo "\033[0m"
       - name: Build xdelta
         run: |
           export PATH="$PATH:/opt/gcc-mipsel-none-elf/bin"
