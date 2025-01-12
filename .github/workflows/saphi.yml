@@ -151,7 +151,7 @@ jobs:
           submodules: recursive
           path: 'games'
       - name: install gpg
-        run: sudo apt-get install gpg=2.2.27
+        run: sudo apt-get install gpg=2.2.27-3ubuntu2.1
       - name: download encrypted game iso
         run: |
           #ls games #need filepath to build
