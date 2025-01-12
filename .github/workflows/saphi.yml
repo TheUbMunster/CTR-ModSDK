@@ -145,38 +145,37 @@ jobs:
           pip install --upgrade pip setuptools wheel
           pip install -r requirements.txt
           sudo bash install_toolchain_prebuilt.sh
+          mkdir -p games/CTR-ModSDK
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: recursive
-          path: 'games'
-      - name: ls
+          path: 'games/CTR-ModSDK'
+      #- name: ls
+      #  run: |
+      #    ls -la
+      #    ls -la games
+      #    ls -la games/CTR-ModSDK
+      - name: install gpg
+        run: sudo apt install gpg
+      - name: download encrypted game iso
         run: |
-          ls -la
-          ls -la games
-          ls -la games/CTR-ModSDK
-     #- name: install gpg
-     #  run: sudo apt install gpg
-     #  #run: sudo apt-get install gpg=2.2.27-3ubuntu2.1
-     #- name: download encrypted game iso
-     #  run: |
-     #    #ls games #need filepath to build
-     #    mkdir -p games/CTR-ModSDK/build
-     #    cd games/CTR-ModSDK/build
-     #    wget ${{secrets.ISO_NTSCU_WGET_PATH}}
-     #    gpg --output ctr-u.bin --batch --passphrase '${{secrets.ISO_NTSCU_DECRYPT_PASSPHRASE}}' -d ctr-u.bin.gpg
-     #    rm ctr-u.bin.gpg
-     #    echo "canonic ctr-u.bin md5 sum is                  'ab95bfca8a4bb3d90daa6519acf6e944'"
-     #    echo "downloaded and decrypted ctr-u.bin md5 sum is '$(md5sum ctr-u.bin | cut -f 1 -d ' ')'"
-     #- name: Build xdelta
-     #  run: |
-     #    export PATH="$PATH:/opt/gcc-mipsel-none-elf/bin"
-     #    export PATH="$PATH:/opt/gcc-mipsel-none-elf/mipsel-none-elf/bin"
-     #    cd games/CTR-ModSDK/decompile
-     #    python ../../../tools/mod-builder/main.py 3 1 # extract iso
-     #    python ../../../tools/mod-builder/main.py 1 1 # compile
-     #    python ../../../tools/mod-builder/main.py 4 1 # build iso
-     #    python ../../../tools/mod-builder/main.py 5 1 # generate xdelta
+          mkdir -p games/CTR-ModSDK/build
+          cd games/CTR-ModSDK/build
+          wget ${{secrets.ISO_NTSCU_WGET_PATH}}
+          gpg --output ctr-u.bin --batch --passphrase '${{secrets.ISO_NTSCU_DECRYPT_PASSPHRASE}}' -d ctr-u.bin.gpg
+          rm ctr-u.bin.gpg
+          echo "canonic ctr-u.bin md5 sum is                  'ab95bfca8a4bb3d90daa6519acf6e944'"
+          echo "downloaded and decrypted ctr-u.bin md5 sum is '$(md5sum ctr-u.bin | cut -f 1 -d ' ')'"
+      - name: Build xdelta
+        run: |
+          export PATH="$PATH:/opt/gcc-mipsel-none-elf/bin"
+          export PATH="$PATH:/opt/gcc-mipsel-none-elf/mipsel-none-elf/bin"
+          cd games/CTR-ModSDK/decompile
+          python ../../../tools/mod-builder/main.py 3 1 # extract iso
+          python ../../../tools/mod-builder/main.py 1 1 # compile
+          python ../../../tools/mod-builder/main.py 4 1 # build iso
+          python ../../../tools/mod-builder/main.py 5 1 # generate xdelta
 
 # example based on my testing
 #gpg --batch --passphrase 'asdfasdf' -c thingy.txt
