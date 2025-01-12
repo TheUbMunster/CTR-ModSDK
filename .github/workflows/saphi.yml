@@ -161,17 +161,17 @@ jobs:
           wget ${{secrets.ISO_NTSCU_WGET_PATH}}
           gpg --output ctr-u.bin --batch --passphrase '${{secrets.ISO_NTSCU_DECRYPT_PASSPHRASE}}' -d ctr-u.bin.gpg
           rm ctr-u.bin.gpg
-          echo "\033[1;36mcanonic ctr-u.bin md5 sum is                  'ab95bfca8a4bb3d90daa6519acf6e944'"
-          echo "\033[1;36mdownloaded and decrypted ctr-u.bin md5 sum is '$(md5sum ctr-u.bin | cut -f 1 -d ' ')'"
-          echo "\033[0m"
+          echo "canonic ctr-u.bin md5 sum is                  'ab95bfca8a4bb3d90daa6519acf6e944'"
+          echo "downloaded and decrypted ctr-u.bin md5 sum is '$(md5sum ctr-u.bin | cut -f 1 -d ' ')'"
       - name: Build xdelta
         run: |
           export PATH="$PATH:/opt/gcc-mipsel-none-elf/bin"
           export PATH="$PATH:/opt/gcc-mipsel-none-elf/mipsel-none-elf/bin"
-          python tools/mod-builder/main.py 3 1 # extract iso
-          python tools/mod-builder/main.py 1 1 # compile
-          python tools/mod-builder/main.py 4 1 # build iso
-          python tools/mod-builder/main.py 5 1 # generate xdelta
+          cd games/CTR-ModSDK/decompile
+          python ../../../tools/mod-builder/main.py 3 1 # extract iso
+          python ../../../tools/mod-builder/main.py 1 1 # compile
+          python ../../../tools/mod-builder/main.py 4 1 # build iso
+          python ../../../tools/mod-builder/main.py 5 1 # generate xdelta
 
 # example based on my testing
 #gpg --batch --passphrase 'asdfasdf' -c thingy.txt
