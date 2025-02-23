@@ -87,32 +87,29 @@
 80027690 COLL_StartSearch_NearPlayer
 80027e64 COLL_Scrub
 
-// unknown 8002869c
-
-8002873c DebugSetRes_640x480i
+8002869c DebugSetRes_640x480i
+8002873c DebugSetRes_512x480i
 800287dc DebugCamera_SetPathPoint
 80028814 DebugMenu_LoadGame_GivenLevelId
 80028854 DebugMenu_LoadGame_GivenIndexE3
 80028a6c DebugMenu_LoadGame_GivenCharacterId
 80028a98 DebugMenu_LoadGame_GivenNumPlyr
 
+// touches gp(0x90) which normally
+// enables the debug ZoomOut
 // unknown 80028ab0
 // unknown 80028ac8
 
-// unknown 80028ae0 -- DebugMenu_TimeStamp_RecordStart
-// unknown 80028b9c -- DebugMenu_TimeStamp_RecordEndLast
-// unknown 80028bb8 -- DebugMenu_TimeStamp_RecordEnd
+80028ae0 DebugProfiler_SectionStart
+80028b9c DebugProfiler_SectionResetart
+80028bb8 DebugProfiler_SectionEnd
 
 80028c10 DebugMenu_InitMenuPositionSize
 
-// unknown 80028d30 -- DebugMenu_TimeStamp_DrawOutline
+80028d30 DebugProfiler_Draw
 
 800291ac DebugMenu_Draw
 8002977c DebugMenu_ExecFuncPtr
-
-// Not the TimeStamp menu, but another debug menu,
-// This can be triggered by pressing Select, if you 
-// NOP the instruction at 8003E3CC that reboots game on Select
 800297a0 DebugMenu_Open
 800297b4 DebugMenu_Close
 800297e8 DebugMenu_Update
@@ -120,18 +117,21 @@
 80029d70 DebugMenu_DrawIfOpen
 80029dc0 DebugMenu_DrawMenuTwice
 
-// unknown 80029e64 -- DebugMenu_TimeStamp_RecordTime
-// unknown 80029efc -- DebugMenu_TimeStamp_GetElapsed
+80029e64 DebugProfiler_Subsection
+80029efc DebugProfiler_ElapsedAndTotal
+
 80029f48 Timer_GetTime_Total_Precise // cut in retail
 80029f98 Timer_GetTime_Total
 8002a018 Timer_GetTime_Elapsed
-// unknown 8002a06c -- vsync callback
+8002a06c funcDrawSyncCallback	// records subsectionD
 8002a0bc Timer_Init
 8002a164 Timer_Destroy
-// unknown 8002a194 -- DebugMenu_SetLapCount
+
+8002a194 DebugMenu_SetLapCount
 // unknown 8002a1a4 -- empty
-// unknown 8002a1c4 -- DebugMenu_SetGameMode
+8002a1c4 DebugMenu_SetGameMode
 // unknown 8002a204
+
 8002a304 Debug_PrimMem_ZoomOut
 // unknown 8002a960
 // unknown 8002ad28 // copy buffer to scratchpad
@@ -140,6 +140,7 @@
 8002adf4 CTR_Box_DrawWireBox
 8002afdc Debug_Draw3dLineF2
 8002b14c Debug_DrawWireCube
+
 // unknown 8002b46c (uses GTE)
 8002b5dc Debug_CountPrimDepths
 // unknown 8002b6d4
@@ -258,11 +259,11 @@
 80032e8c GhostTape_Start
 80032f14 GhostTape_WriteMoves
 800332c4 GhostTape_WriteBoosts
-80033324 GhostTape_Destroy
 
-// unknown 80033358
-// unknown 800333c4 -- ghost loading
-// unknown 80033400 -- ghost loading
+80033324 GhostDebug_Record
+80033358 GhostDebug_Playback
+800333c4 GhostDebug_Load
+80033400 GhostDebug_Save
 
 // === Everything below "Ghost" is "Howl"
 
@@ -448,7 +449,7 @@
 80039990 MainDB_PrimMem
 800399f4 MainDB_InstanceMem
 80039a4c MainDB_OTMem
-80039aa4 MainDrawCb_Vsync
+80039aa4 MainDrawCb_Vsync			// record subsectionV
 80039b4c MainFrame_TogglePauseAudio
 
 // EnterYourName screen
@@ -521,7 +522,7 @@
 // unknown 80041ad4
 80041b9c VehBirth_SetConsts
 // unknown 80041d30
-// unknown 80041d8c
+// unknown 80041d8c -- DebugMenu set character mid-race?
 80041e38 VehBirth_EngineAudio_AllPlayers
 80041e90 VehBirth_TireSprites
 80041f0c VehBirth_NonGhost

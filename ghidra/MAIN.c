@@ -467,7 +467,7 @@ LAB_80034e74:
     puVar9 = PTR_DAT_8008d2ac;
     if ((int)param_1[0x743] < 1)
 	{
-	  // if PauseAllThreads is diabled
+	  // if DebugMenu is diabled
       if ((*(uint *)PTR_DAT_8008d2ac & 0x10) == 0) {
 
         // if amount of frozen time left (relic races) is less or equal than zero
@@ -593,7 +593,7 @@ LAB_80035098:
 
       if (
 			(
-				// if PauseAllThreads is diabled
+				// if DebugMenu is diabled
 				((*(uint *)PTR_DAT_8008d2ac & 0x10) == 0) ||
 
 				// if this bucket cannot be paused
@@ -877,8 +877,7 @@ LAB_80035098:
                (PTR_DAT_8008d2ac[0x2541] != -1)
 			  )
 			{
-			  // This pauses the game somehow
-
+			  // But why? ND typo?
               *(uint *)(PTR_DAT_8008d2ac + 0x1d44) = *(uint *)PTR_DAT_8008d2ac & 0x3e0020 | 1;
 
 			  // MainFreeze_IfPressStart
@@ -3802,10 +3801,17 @@ code_r0x800369d8:
   // 0x51f = 0x147c = pushBuffer_UI + 0xf4 (ptrOT)
   FUN_80042a8c(param_1[0x51f] + 0x10,param_1 + 0x4e2,param_1[4],0,0);
 
+
+#if 0
+  // leftover debug unused,
+  // clockDurationStall = sysclock (do NOT print)
+	
   // Timer_GetTime_Total
   uVar7 = FUN_8004b3a4();
   puVar14 = PTR_DAT_8008d2ac;
   param_1[0x737] = uVar7;
+#endif
+
 
   // gGT->256c & checkered flag
   if ((*(uint *)(puVar14 + 0x256c) & 0x1000) != 0) {
@@ -3850,12 +3856,21 @@ LAB_800378d0:
 	DrawSync(0);
   }
 
+
+
+#if 0
+  // leftover debug unused,
+  // clockDurationStall = time since stall started (NOW print)
+  
   // param1 is PTR_DAT_8008d2ac
 
   // 737 -> 1cdc
   // Timer_GetTime_Elapsed
   uVar7 = FUN_8004b41c(param_1[0x737],0);
   param_1[0x737] = uVar7;
+#endif
+
+
 
   // if frontBuffer exists
   if (param_1[5] != 0)
@@ -5647,12 +5662,12 @@ void FUN_80039a44(int param_1)
   
 	// Unpause game
     *(uint *)PTR_DAT_8008d2ac = *(uint *)PTR_DAT_8008d2ac & 0xfffffffe;
-    i
+    
 	// RaceFlag_IsFullyOffScreen
 	Var3 = FUN_80043f28();
     if (iVar3 == 1)
 	{
-	  // checkered flag, begin transition on-screen
+	  // RaceFlag_BeginTransition(GoOnscreen)
       FUN_80043fb0(1);
     }
 
@@ -6148,7 +6163,7 @@ void FUN_80039fa8(int param_1)
 	  *(uint *)(&DAT_8008e814 + iVar9) =
 	  *(uint *)(&DAT_8008e814 + iVar9) | 1;
 
-	  // | 0x8000
+	  // NTROPY_JUST_OPENED | NEW_HIGH_SCORE
 	  uVar8 = *(uint *)(puVar3 + 0x1d44) | 0x8008000;
     }
 
@@ -6165,7 +6180,8 @@ void FUN_80039fa8(int param_1)
       *(uint *)(&DAT_8008e814 + iVar7)
 		| 1 << (DAT_8008453c & 0x1f);
 
-	  // + 0x1d44) | 0x18000000
+	  // value = 0x18000000,
+	  // NEW_HIGH_SCORE | NTROPY_JUST_BEAT
 	  uVar8 = *(uint *)(puVar3 + 0x1d44) | DAT_80084548;
     }
   }
@@ -6225,10 +6241,15 @@ void FUN_8003a2b4(void)
   FUN_80039fa8(0);
 
   puVar2 = PTR_DAT_8008d2ac;
+  
+  // HIGH_SCORE_SAVED
   uVar3 = *(uint *)(PTR_DAT_8008d2ac + 0x1d44);
-  if ((uVar3 & 0x10000) == 0) {
+  if ((uVar3 & 0x10000) == 0) 
+  {
+	// HIGH_SCORE_SAVED
     *(uint *)(PTR_DAT_8008d2ac + 0x1d44) = uVar3 | 0x10000;
-    puVar7 = DAT_8008d738;
+    
+	puVar7 = DAT_8008d738;
 
 	// if there is a new best lap
     if ((uVar3 & 0x4000000) != 0)
@@ -6412,8 +6433,9 @@ void FUN_8003a3fc(void)
     uVar9 = *(uint *)PTR_DAT_8008d2ac;
     *(uint *)PTR_DAT_8008d2ac = uVar9 | 0x200000;
 
-
+	// But why? ND typo?
     *(uint *)(puVar13 + 0x1d44) = uVar9 & 0x3e0020 | 0x200000;
+	
     puVar10 = PTR_DAT_8008d2ac;
 
 	// If you are not in Battle Mode
@@ -7799,8 +7821,11 @@ void FUN_8003b934(uint *param_1)
 
   // loop counter
   iVar8 = 0;
-
+  
+  // gGT->pushBuffer[0].distToScreen_PREV
   *(undefined4 *)(PTR_DAT_8008d2ac + 0x180) = 0x100;
+  
+  // gGT->pushBuffer[0].distToScreen_CURR
   *(undefined4 *)(puVar2 + 0x274) = 0x100;
 
   // erase all threadBucket structs
@@ -8355,7 +8380,7 @@ void FUN_8003b934(uint *param_1)
   // If you are in a cutscene
   if ((*(uint *)PTR_DAT_8008d2ac & 0x20000000) != 0)
   {
-	// CS_LevCamera_OnInit
+	// CS_Cutscene_Start
     FUN_800b087c();
   }
 
@@ -8973,7 +8998,7 @@ LAB_8003ca68:
 		// if it is
         else
 		{
-		  // checkered flag, begin transition off-screen
+		  // RaceFlag_BeginTransition(GoOffscreen)
           FUN_80043fb0(2);
         }
       }
@@ -9234,7 +9259,7 @@ LAB_8003ca68:
             iVar8 = FUN_80043f28();
             if (iVar8 == 1)
 			{
-			  // checkered flag, begin transition on-screen
+			  // RaceFlag_BeginTransition(GoOnscreen)
               FUN_80043fb0(1);
             }
           }
@@ -9474,7 +9499,7 @@ void FUN_8003cfc0(short param_1)
 
   if (iVar1 == 1)
   {
-	// checkered flag, begin transition on-screen
+	// RaceFlag_BeginTransition(GoOnscreen)
     FUN_80043fb0(1);
   }
 

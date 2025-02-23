@@ -1241,7 +1241,7 @@ struct Driver
 	int timeSpentSquished;
 
 	// 0x548
-	int timeSpentMaskGrabbed;
+	int timeSpentEaten;
 
 	// 0x54c
 	int timeSpentBurnt;
@@ -1306,7 +1306,7 @@ struct Driver
 	// characterID "Crash Bandicoot"
 
 	// 0x56c
-	int EndOfRaceComment_lngIndex;
+	short* EndOfRaceComment_ptrQuip;
 
 	// 0x570
 	int EndOfRaceComment_characterID;

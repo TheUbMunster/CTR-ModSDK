@@ -505,7 +505,7 @@ void LOAD_Callback_Overlay_233();
 void LOAD_Callback_MaskHints3D(struct LoadQueueSlot* lqs);
 void LOAD_Callback_Podiums(struct LoadQueueSlot* lqs);
 void LOAD_Callback_LEV(struct LoadQueueSlot* lqs);
-void LOAD_Callback_LEV_Adv(struct LoadQueueSlot* lqs);
+void LOAD_Callback_PatchMem(struct LoadQueueSlot* lqs);
 void LOAD_Callback_DriverModels(struct LoadQueueSlot* lqs);
 //LOAD_HubCallback()
 void LOAD_GlobalModelPtrs_MPK();
@@ -519,7 +519,7 @@ void LOAD_VramFileCallback(struct LoadQueueSlot* lqs);
 u_int LOAD_VramFile(struct BigHeader* bigfile, u_int fileIndex, u_int* destination, u_int* sizePtr, int callback);
 void LOAD_ReadFileASyncCallback();
 u_long* LOAD_ReadFile(struct BigHeader* bigfile, u_int loadType, u_int fileIndex, u_int* destination, u_int* sizePtr, int callback);
-void* LOAD_ReadFile_NoCallback(char* file, void* addr, int* size);
+void* LOAD_XnfFile(char* file, void* addr, int* size);
 //LOAD_FindFile()
 
 // these are the last howl functions ever
@@ -1294,7 +1294,7 @@ void SpuSetIRQCallback(void(*)(void));
 void SpuSetTransferCallback(void(*)(void));
 void MainInit_RainBuffer(struct GameTracker*);
 void CS_Podium_FullScene_Init();
-void CS_LevCamera_OnInit();
+void CS_Cutscene_Start();
 void howl_StopAudio(int boolErasePauseBackup, int boolEraseMusic, int boolDestroyAllFX);
 u_int OtherFX_Modify(u_int soundId, u_int flags);
 void RB_TNT_ThTick_ThrowOnHead(struct Thread*);

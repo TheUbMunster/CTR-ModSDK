@@ -1956,7 +1956,7 @@ void FUN_8001ef1c(void)
 
 // COLL_TestTriangle_FindAny
 // param1 - 1f800108
-// param2,3,4, triangle points
+// param2,3,4, are all NormalVectors
 void FUN_8001ef50(int param_1,short *param_2,short *param_3,short *param_4)
 
 {
@@ -1982,10 +1982,14 @@ void FUN_8001ef50(int param_1,short *param_2,short *param_3,short *param_4)
   // collision flag
   sVar1 = param_2[3];
   
+  // Normal Vector
   uVar6 = *(undefined4 *)(param_2 + 6);
   iVar7 = *(int *)(param_2 + 8);
+  
   *(short *)(param_1 + 0x3c) = *(short *)(param_1 + 0x3c) + 1;
   *(short *)(param_1 + 0x52) = sVar1;
+  
+  // Normal Vector
   *(undefined4 *)(param_1 + 0x54) = uVar6;
   *(int *)(param_1 + 0x58) = iVar7;
   
@@ -1998,8 +2002,11 @@ void FUN_8001ef50(int param_1,short *param_2,short *param_3,short *param_4)
   
   gte_ldR13R21(iVar11 * 0x10000 | uVar8 & 0xffff);
   gte_ldR22R23(uVar12 & 0xffff | iVar14 * 0x10000);
+  
+  // Normal Vector
   gte_ldVXY0(param_1 + 0x54);
   gte_ldVZ0(iVar7);
+  
   gte_mvmva_b(0,0,0,3,0);
   iVar5 = gte_stMAC2();
   iVar2 = gte_stMAC1();
@@ -2024,17 +2031,27 @@ void FUN_8001ef50(int param_1,short *param_2,short *param_3,short *param_4)
 	  *(short *)(param_1 + 0x4c) = (short)iVar11;
       *(short *)(param_1 + 0x4e) = (short)uVar12;
       *(short *)(param_1 + 0x50) = (short)iVar14;
+	  
+	  // Define vectors:
+	  // Let P be the point you want to check for collision.
+	  // Let A, B, and C be the three vertices of the triangle.
+	  
+	  // Calculate vectors between vertices:
+	  // v1 = B - A
+	  // v2 = C - A
+	  // v3 = P - A
       
 	  psVar3 = param_3;
 	  
 	  // flag == 3
+	  // normVec points Y
       if (*(short *)(param_1 + 0x52) == 3) 
 	  {
 		// Z length vectors
         iVar2 = (int)param_2[2];
-        iVar9 = param_3[2] - iVar2;
-        iVar7 = param_4[2] - iVar2;
-        iVar2 = iVar14 - iVar2;
+        iVar9 = param_3[2] - iVar2;	// v1 = B - A
+        iVar7 = param_4[2] - iVar2;	// v2 = C - A
+        iVar2 = iVar14 - iVar2;		// v3 = P - A
         
 		// absolute value
 		iVar5 = iVar9;
@@ -2059,9 +2076,9 @@ void FUN_8001ef50(int param_1,short *param_2,short *param_3,short *param_4)
         
 		// X length vectors
 		iVar14 = (int)*param_2;
-        iVar5 = *psVar3 - iVar14;
-        iVar9 = *param_4 - iVar14;
-        iVar11 = iVar11 - iVar14;
+        iVar5 = *psVar3 - iVar14;	// v1 = B - A
+        iVar9 = *param_4 - iVar14;	// v2 = C - A
+        iVar11 = iVar11 - iVar14;	// v3 = P - A
       }
       
 	  // != 3
@@ -2070,12 +2087,13 @@ void FUN_8001ef50(int param_1,short *param_2,short *param_3,short *param_4)
         iVar2 = (int)*param_2;
 		
 		// flag == 1
+		// if normalVec points Z
         if (*(short *)(param_1 + 0x52) == 1) 
 		{
 		  // X length vectors
-          iVar14 = *param_3 - iVar2;
-          iVar7 = *param_4 - iVar2;
-          iVar2 = iVar11 - iVar2;
+          iVar14 = *param_3 - iVar2;	// v1 = B - A	
+          iVar7 = *param_4 - iVar2;		// v2 = C - A
+          iVar2 = iVar11 - iVar2;		// v3 = P - A
           
 		  // absolute value
 		  iVar5 = iVar14;
@@ -2100,19 +2118,20 @@ void FUN_8001ef50(int param_1,short *param_2,short *param_3,short *param_4)
           
 		  // Y length vectors
 		  iVar11 = (int)param_2[1];
-          iVar5 = psVar3[1] - iVar11;
-          iVar9 = param_4[1] - iVar11;
-          iVar11 = uVar12 - iVar11;
+          iVar5 = psVar3[1] - iVar11;	// v1 = B - A
+          iVar9 = param_4[1] - iVar11;	// v2 = C - A
+          iVar11 = uVar12 - iVar11;	    // v3 = P - A
         }
         
 		// != 1
+		// (must be == 2) -- normVec points X
 		else 
 		{
 		  // Y length vectors
           iVar2 = (int)param_2[1];
-          iVar11 = param_3[1] - iVar2;
-          iVar7 = param_4[1] - iVar2;
-          iVar2 = uVar12 - iVar2;
+          iVar11 = param_3[1] - iVar2; // v1 = B - A
+          iVar7 = param_4[1] - iVar2;  // v2 = C - A
+          iVar2 = uVar12 - iVar2;      // v3 = P - A
 		  
 		  // absolute value
           iVar5 = iVar11;
@@ -2137,15 +2156,21 @@ void FUN_8001ef50(int param_1,short *param_2,short *param_3,short *param_4)
 		  
 		  // Z length vectors
           iVar11 = (int)param_2[2];
-          iVar5 = psVar3[2] - iVar11;
-          iVar9 = param_4[2] - iVar11;
-          iVar11 = iVar14 - iVar11;
+          iVar5 = psVar3[2] - iVar11;  // v1 = B - A
+          iVar9 = param_4[2] - iVar11; // v2 = C - A
+          iVar11 = iVar14 - iVar11;    // v3 = P - A
         }
       }
 	  
 	  
       iVar14 = -0x1000;
       iVar13 = -0x1000;
+	  
+	  // where does this fit?
+	  // u = dot(v2, cross(v1,v3)) / dot(v1, cross(v1,v2))
+	  // v = dot(v1, cross(v3,v2)) / dot(v2, cross(v1,v2))
+	  // w = 1 - u - v
+	  // if all > 0, collision
 	  
 	  // if one length is zero
       if (iVar10 == 0) 
@@ -2169,10 +2194,15 @@ void FUN_8001ef50(int param_1,short *param_2,short *param_3,short *param_4)
       
 	  else 
 	  {
+		// comments assume == 2,
+		// comments assume normVec points X
+		  
+		// v2z * v1y - v2y * v1z
         iVar9 = iVar9 * iVar10 - iVar7 * iVar5 >> 6;
         
 		if (iVar9 != 0) 
 		{
+		  // v3z * v1y - v3y * v1z
           iVar13 = ((iVar11 * iVar10 - iVar2 * iVar5) * 0x40) / iVar9;
           
 		  if ((-1 < iVar13) && (iVar13 + -0x1000 < 1)) 
@@ -2211,10 +2241,14 @@ void FUN_8001ef50(int param_1,short *param_2,short *param_3,short *param_4)
         *(undefined4 *)(param_1 + 0xd0) = uVar6;
         *(undefined4 *)(param_1 + 0xd4) = uVar4;
         *(short *)(param_1 + 0x3e) = *(short *)(param_1 + 0x3e) + 1;
+		
+		// Record Position (x2)
         *(undefined4 *)(param_1 + 0x68) = *(undefined4 *)(param_1 + 0x4c);
         *(undefined4 *)(param_1 + 0x1c) = *(undefined4 *)(param_1 + 0x4c);
         *(undefined2 *)(param_1 + 0x6c) = *(undefined2 *)(param_1 + 0x50);
         *(undefined2 *)(param_1 + 0x20) = *(undefined2 *)(param_1 + 0x50);
+		
+		// Normal vector
         *(undefined4 *)(param_1 + 0x70) = *(undefined4 *)(param_1 + 0x54);
         *(undefined4 *)(param_1 + 0x74) = *(undefined4 *)(param_1 + 0x58);
       }
@@ -2307,17 +2341,32 @@ void FUN_8001f2dc(int param_1,undefined4 *param_2,short *param_3,short *param_4)
   if (iVar6 < 0) iVar6 = -iVar6;
   if (iVar4 < 0) iVar4 = -iVar4;
   
+  // normalVec points Z
   sVar2 = 1;
-  if (iVar5 - iVar6 < 0) {
+  
+  // if Y axis > X axis
+  if (iVar5 - iVar6 < 0) 
+  {
+	// normalVec points Z
     sVar2 = 1;
-    if (-1 < iVar6 - iVar4) {
+	
+	// Y axis > Z axis
+    if (-1 < iVar6 - iVar4) 
+	{
+	  // normalVec points Y
       sVar2 = 3;
     }
   }
-  else if (-1 < iVar5 - iVar4) {
+  
+  // (else means Y < X) &&
+  // if X > Z
+  else if (-1 < iVar5 - iVar4) 
+  {
+	// normalVec points X
     sVar2 = 2;
   }
   
+  // BspSearchVertex Flags (1,2,3)
   *(short *)((int)param_2 + 6) = sVar2;
   
   return;
@@ -2397,7 +2446,8 @@ void FUN_8001f41c(int param_1,int param_2)
 		
 		// call FUN_8001ef50 eight times, one per triangle
 		
-		// all values are offset 0x10 from what they should be, for some reason?
+		// All values are offset 0x10,
+		// because that's where the normalVec of each triangle is
 		
         FUN_8001ef50(0x1f800118, 0x1f8002a8, 0x1f800280, 0x1f800294); // 8, 6, 7
         FUN_8001ef50(0x1f800118, 0x1f800294, 0x1f800244, 0x1f8002a8); // 7, 3, 8
@@ -2643,6 +2693,11 @@ undefined4 FUN_8001f928(undefined4 *param_1,undefined4 *param_2,undefined4 *para
   int iVar10;
 
   puVar2 = param_3;
+  
+  // rearrange algorithm based on
+  // the direction the normalVec faces
+  
+  // NormalVec Direction #3
   if (*(short *)((int)param_1 + 6) == 3) {
     iVar3 = (int)*(short *)(param_2 + 1);
     iVar5 = *(short *)(param_3 + 1) - iVar3;
@@ -2670,6 +2725,8 @@ undefined4 FUN_8001f928(undefined4 *param_1,undefined4 *param_2,undefined4 *para
   }
   else {
     iVar3 = (int)*(short *)param_2;
+	
+	// NormalVec Direction #1
     if (*(short *)((int)param_1 + 6) == 1) {
       iVar5 = *(short *)param_3 - iVar3;
       iVar9 = *(short *)param_4 - iVar3;
@@ -2695,6 +2752,9 @@ undefined4 FUN_8001f928(undefined4 *param_1,undefined4 *param_2,undefined4 *para
       iVar4 = *(short *)((int)param_1 + 0x12) - iVar4;
     }
     else {
+		
+	  // NormalVec Direction #2
+		
       iVar3 = (int)*(short *)((int)param_2 + 2);
       iVar5 = *(short *)((int)param_3 + 2) - iVar3;
       iVar9 = *(short *)((int)param_4 + 2) - iVar3;
@@ -2720,6 +2780,13 @@ undefined4 FUN_8001f928(undefined4 *param_1,undefined4 *param_2,undefined4 *para
       iVar4 = *(short *)(param_1 + 5) - iVar4;
     }
   }
+  
+  // where does this fit?
+  // u = dot(v2, cross(v1,v3)) / dot(v1, cross(v1,v2))
+  // v = dot(v1, cross(v3,v2)) / dot(v2, cross(v1,v2))
+  // w = 1 - u - v
+  // if all > 0, collision
+  
   iVar7 = -0x1000;
   iVar8 = -0x1000;
   if (iVar6 == 0) {
@@ -2741,6 +2808,8 @@ undefined4 FUN_8001f928(undefined4 *param_1,undefined4 *param_2,undefined4 *para
   if ((iVar7 == -0x1000) || (iVar7 == -0x1000)) {
     return 0xffffffff;
   }
+  
+  
   if (iVar7 < 0) {
     if (iVar8 < 0) {
       sVar1 = *(short *)(param_2 + 1);
@@ -3221,11 +3290,11 @@ void FUN_80020334(int param_1,int param_2,int param_3)
 	  // meaning we've already found collision with this triangle on this frame
 	  if ((*piVar4 == param_1) && (piVar4[1] == param_2)) 
 	  {
-		// frame timer?
+		// count number of times collided this frame
         iVar3 = piVar4[2];
         uVar2 = (undefined2)iVar3;
         
-		// if collision is found less than 4 frames
+		// count a max of 4 timse this frame
 		if (iVar3 < 0x401) 
 		{
 		  // increment
@@ -3327,7 +3396,9 @@ void FUN_80020410(undefined4 param_1,int param_2)
   // quadblock, triangleID, search data
   FUN_80020334(0,0,&DAT_1f800108);
   
-  // loop executes 0xF times
+  // loop 16 times (0xF -> 0)
+  // Check every 1/16th distance
+  // between CurrFrame and NextFrame
   iVar14 = 0xf;
   do 
   {
@@ -3341,6 +3412,9 @@ void FUN_80020410(undefined4 param_1,int param_2)
     DAT_1f80014a = 0;
     DAT_1f800148 = 0;
     DAT_1f80018c = 0x1000;
+
+	// 1f800118: vec3 kartPosCurrFrame
+	// 1f800108: vec3 kartPosNextFrame
 
 	// kartCenter = vec3_originToCenter + driverPos (origin of model is bottom-center)
 	sVar9 = *(short *)(param_2 + 0x94) + (short)((uint)*(undefined4 *)(param_2 + 0x2d4) >> 8);
@@ -3443,12 +3517,14 @@ void FUN_80020410(undefined4 param_1,int param_2)
 
     if (0 < DAT_1f80018c) 
 	{
-      // increase position by velocity
+      // increase position by PARTIAL velocity,
+	  // slowly increment one each frame of 16 checks
       *(int *)(param_2 + 0x2d4) = *(int *)(param_2 + 0x2d4) + (iVar5 * DAT_1f80018c >> 0xc);
       *(int *)(param_2 + 0x2d8) = *(int *)(param_2 + 0x2d8) + (iVar6 * DAT_1f80018c >> 0xc);
       *(int *)(param_2 + 0x2dc) = *(int *)(param_2 + 0x2dc) + (iVar7 * DAT_1f80018c >> 0xc);
     }
 	
+	// Collide with Quadblock (not instance)
     if (DAT_1f80014a == 0) 
 	{
 	  uVar1 = DAT_1f80012a;
@@ -3500,11 +3576,14 @@ void FUN_80020410(undefined4 param_1,int param_2)
 		  // quadblock under driver
           *(undefined4 *)(param_2 + 0x350) = 0;
         }
+		
+		// normVec X
         uVar8 = _DAT_1f800178;
 
 		// set quadblock you are touching
         *(int *)(param_2 + 0xa0) = DAT_1f800188;
 
+		// normVec XYZ
 		*(undefined4 *)(param_2 + 0xa4) = uVar8;
         uVar8 = _DAT_1f800178;
         *(undefined2 *)(param_2 + 0xa8) = DAT_1f80017c;
@@ -3512,12 +3591,15 @@ void FUN_80020410(undefined4 param_1,int param_2)
 		// ROAD
 		uVar12 = 5;
         
+		// normVec X+Y
 		*(undefined4 *)(param_2 + 0x360) = uVar8;
+		
         uVar2 = DAT_1f80017c;
 
 		// driver is now on ground
         *(ushort *)(param_2 + 0xaa) = *(ushort *)(param_2 + 0xaa) | 8;
 
+		// normVec Z
 		*(undefined2 *)(param_2 + 0x364) = uVar2;
       }
 
@@ -3557,6 +3639,7 @@ void FUN_80020410(undefined4 param_1,int param_2)
       DAT_1f80012a = DAT_1f80012a | 8;
     }
     
+	// Collide with Instance (not quadblock)
 	else 
 	{
       DAT_1f80012a = DAT_1f80012a & 0xfff7;
@@ -3661,6 +3744,7 @@ LAB_800209b0:
 // param_2 driver thread
 // param_3 scratchpad address 1f800108
 // param_4 MetaDataScrub
+// param_5 velocity
 undefined4 FUN_80020c58(int param_1,undefined4 param_2,int param_3,int param_4,int *param_5)
 
 {
@@ -3686,6 +3770,7 @@ undefined4 FUN_80020c58(int param_1,undefined4 param_2,int param_3,int param_4,i
   ushort local_44;
   int local_30;
 
+  // normal vector
   local_48 = *(ushort *)(param_3 + 0x70);
   local_46 = *(ushort *)(param_3 + 0x72);
   local_44 = *(ushort *)(param_3 + 0x74);
@@ -3756,8 +3841,10 @@ undefined4 FUN_80020c58(int param_1,undefined4 param_2,int param_3,int param_4,i
     }
   }
 
+  // multiply velocity by normVec
   iVar3 = (*param_5 >> 3) * (int)(short)local_48 + (param_5[1] >> 3) * (int)(short)local_46 +
           (param_5[2] >> 3) * (int)(short)local_44 >> 9;
+		  
   if (iVar3 < -0xa00) {
     //turn on 8th bit of Actions Flag set (means ?)
     *(uint *)(param_1 + 0x2c8) = *(uint *)(param_1 + 0x2c8) | 0x80;
@@ -3772,6 +3859,7 @@ undefined4 FUN_80020c58(int param_1,undefined4 param_2,int param_3,int param_4,i
 	// scrubMeta->4
     uVar9 = *(uint *)(param_4 + 4);
 
+	// RUBBER/SANDBAG/SOLID
 	if ((uVar9 & 4) == 0)
 	{
       //turn on 14th bit of Actions Flag set (means
@@ -3779,6 +3867,7 @@ undefined4 FUN_80020c58(int param_1,undefined4 param_2,int param_3,int param_4,i
       *(uint *)(param_1 + 0x2c8) = *(uint *)(param_1 + 0x2c8) | 0x2000;
     }
 
+	// RUBBER/SANDBAG/SOLID
 	if ((uVar9 & 8) == 0)
 	{
 	  // reset reserves
@@ -3792,6 +3881,8 @@ undefined4 FUN_80020c58(int param_1,undefined4 param_2,int param_3,int param_4,i
 	// if just touched the wall for the first frame
 	if (*(short *)(param_1 + 0x3fe) == 0)
 	{
+	  // If Road/NoEffect,
+	  // If !Slowdown
       bVar2 = 0x3e7ff < iVar5;
     }
 
@@ -3820,7 +3911,10 @@ undefined4 FUN_80020c58(int param_1,undefined4 param_2,int param_3,int param_4,i
     }
 
 	uVar4 = 0;
-    if ((uVar9 & 1) != 0) {
+	
+	// Solid/Rubber/Sandbag/Road
+    if ((uVar9 & 1) != 0) 
+	{
       iVar15 = iVar3 * (short)local_46;
       local_30 = 0;
       uVar10 = iVar3 * (short)local_48 >> 0xc;
@@ -3916,12 +4010,16 @@ undefined4 FUN_80020c58(int param_1,undefined4 param_2,int param_3,int param_4,i
           if ((uVar10 == 0xffffffff) && (iVar13 * iVar6 == -0x80000000)) {
             trap(0x1800);
           }
+		  
+		  // partially invert velocity to prevent going "through" wall
           param_5[2] = (iVar13 * iVar6) / (int)uVar10;
           *param_5 = *param_5 - ((int)((uint)local_48 << 0x10) >> 0x11);
           param_5[1] = param_5[1] - ((int)((uint)local_46 << 0x10) >> 0x11);
           param_5[2] = param_5[2] - ((int)((uint)local_44 << 0x10) >> 0x11);
         }
       }
+	  
+	  // Solid/Sandbag
       if ((((uVar9 & 2) != 0) && (iVar3 < -0x13ff)) &&
          (
 			// get approximate speed
