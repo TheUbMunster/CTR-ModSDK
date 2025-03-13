@@ -150,8 +150,9 @@ jobs:
           pip install -r requirements.txt
           # sudo bash install_toolchain_prebuilt.sh
           powershell -c "& { iwr -UseBasicParsing https://raw.githubusercontent.com/grumpycoders/pcsx-redux/main/mips.ps1 | iex }"
-          mips install 13.1.0
           mkdir -p games\CTR-ModSDK
+      - name: Install mips
+        run: mips install 13.1.0
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
