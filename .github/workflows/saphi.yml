@@ -186,7 +186,7 @@ jobs:
           python ..\..\..\tools\mod-builder\main.py 4 1 # build iso
           python ..\..\..\tools\mod-builder\main.py 5 1 # generate xdelta
           dir ..\build
-          cp ctr-u_decompile.xdelta ..\..\..\..\ctr-u_decompile.xdelta
+          cp ..\build\ctr-u_decompile.xdelta ..\..\..\..\ctr-u_decompile.xdelta
       - name: print gcc_out
         run: cat psx-modding-toolchain\games\CTR-ModSDK\decompile\debug\gcc_out.txt || true
       - name: Release
