@@ -208,6 +208,7 @@ jobs:
           python ..\..\..\tools\mod-builder\main.py 5 1 # generate xdelta
           echo "ASDF"
           # ls output
+          ls ..\build
           echo "JKL"
           tree .
           echo "QWER"
