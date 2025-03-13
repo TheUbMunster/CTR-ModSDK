@@ -133,7 +133,7 @@ jobs:
 #          files: SaphiClient-windows-debug-x64.zip
   build-saphi-game:
     permissions: write-all
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -146,11 +146,12 @@ jobs:
       - name: Install toolchain deps
         run: |
           cd psx-modding-toolchain
-          ls -la
           pip install --upgrade pip setuptools wheel
           pip install -r requirements.txt
-          sudo bash install_toolchain_prebuilt.sh
-          mkdir -p games/CTR-ModSDK
+          # sudo bash install_toolchain_prebuilt.sh
+          powershell -c "& { iwr -UseBasicParsing https://raw.githubusercontent.com/grumpycoders/pcsx-redux/main/mips.ps1 | iex }"
+          mips install 13.1.0
+          mkdir -p games\CTR-ModSDK
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -161,27 +162,34 @@ jobs:
       #    ls -la
       #    ls -la games
       #    ls -la games/CTR-ModSDK
-      - name: install gpg
-        run: sudo apt install gpg
+      - name: install 7zip
+        run: |
+          # $client = new-object System.Net.WebClient
+          # $client.DownloadFile("https://www.7-zip.org/a/7z2409-x64.exe","C:\tmp\7zip.exe")
+          # C:\tmp\7zip.exe /S
+          winget install 7zip.7zip --silent
+      # - name: install gpg
+      #   run: sudo apt install gpg
       - name: download encrypted game iso
         run: |
           cd psx-modding-toolchain/games/CTR-ModSDK
           mkdir build
           cd build
           wget ${{secrets.ISO_NTSCU_WGET_PATH}}
-          gpg --output ctr-u.bin --batch --passphrase '${{secrets.ISO_NTSCU_DECRYPT_PASSPHRASE}}' -d ctr-u.bin.gpg
-          rm ctr-u.bin.gpg
+          & "C:\Program Files\7-Zip\7z.exe" x -p${{secrets.ISO_NTSCU_DECRYPT_PASSPHRASE}} ctr-u.7z
+          # gpg --output ctr-u.bin --batch --passphrase '${{secrets.ISO_NTSCU_DECRYPT_PASSPHRASE}}' -d ctr-u.bin.gpg
+          # rm ctr-u.bin.gpg
           echo "canonic ctr-u.bin md5 sum is                  'ab95bfca8a4bb3d90daa6519acf6e944'"
-          echo "downloaded and decrypted ctr-u.bin md5 sum is '$(md5sum ctr-u.bin | cut -f 1 -d ' ')'"
+          # echo "downloaded and decrypted ctr-u.bin md5 sum is '$(md5sum ctr-u.bin | cut -f 1 -d ' ')'"
       - name: Build xdelta
         run: |
-          export PATH="$PATH:/opt/gcc-mipsel-none-elf/bin"
-          export PATH="$PATH:/opt/gcc-mipsel-none-elf/mipsel-none-elf/bin"
-          cd psx-modding-toolchain/games/CTR-ModSDK/decompile
-          python ../../../tools/mod-builder/main.py 3 1 # extract iso
-          python ../../../tools/mod-builder/main.py 1 1 # compile
-          python ../../../tools/mod-builder/main.py 4 1 # build iso
-          python ../../../tools/mod-builder/main.py 5 1 # generate xdelta
+          # export PATH="$PATH:/opt/gcc-mipsel-none-elf/bin"
+          # export PATH="$PATH:/opt/gcc-mipsel-none-elf/mipsel-none-elf/bin"
+          cd psx-modding-toolchain\games\CTR-ModSDK\decompile
+          python ..\..\..\tools\mod-builder\main.py 3 1 # extract iso
+          python ..\..\..\tools\mod-builder\main.py 1 1 # compile
+          python ..\..\..\tools\mod-builder\main.py 4 1 # build iso
+          python ..\..\..\tools\mod-builder\main.py 5 1 # generate xdelta
 
 # example based on my testing
 #gpg --batch --passphrase 'asdfasdf' -c thingy.txt
