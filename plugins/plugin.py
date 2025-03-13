@@ -7,12 +7,18 @@ def warning() -> None:
 
 def extract(plugin_path: str, game_path: str, game_version: None) -> None:
     if os.path.join(plugin_path, "ctr-tools"):
-        os.system(plugin_path + "ctr-tools/bigtool.exe " + game_path + "BIGFILE.BIG")
+        if os.name == "posix":
+            os.system("wine " + plugin_path + "ctr-tools/bigtool.exe " + game_path + "BIGFILE.BIG")
+        else:
+            os.system(plugin_path + "ctr-tools/bigtool.exe " + game_path + "BIGFILE.BIG")
     else:
         warning()
 
 def build(plugin_path: str, game_path: str, game_version: None) -> None:
     if os.path.join(plugin_path, "ctr-tools"):
-        os.system(plugin_path + "ctr-tools/bigtool.exe " + game_path + "bigfile.txt")
+        if os.name == "posix":
+            os.system("wine " + plugin_path + "ctr-tools/bigtool.exe " + game_path + "bigfile.txt")
+        else:
+            os.system(plugin_path + "ctr-tools/bigtool.exe " + game_path + "bigfile.txt")
     else:
         warning()
