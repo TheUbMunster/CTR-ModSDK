@@ -198,7 +198,7 @@ jobs:
           echo "downloaded and decrypted ctr-u.bin md5 sum is '$hash'"
       - name: Build xdelta
         run: |
-          echo mipsel-none-elf-gcc --version
+          mipsel-none-elf-gcc --version
           # export PATH="$PATH:/opt/gcc-mipsel-none-elf/bin"
           # export PATH="$PATH:/opt/gcc-mipsel-none-elf/mipsel-none-elf/bin"
           cd psx-modding-toolchain\games\CTR-ModSDK\decompile
