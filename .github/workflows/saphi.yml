@@ -149,7 +149,9 @@ jobs:
           pip install --upgrade pip setuptools wheel
           pip install -r requirements.txt
           # sudo bash install_toolchain_prebuilt.sh
+          echo about to do the mips ps1 script
           powershell -c "& { iwr -UseBasicParsing https://raw.githubusercontent.com/grumpycoders/pcsx-redux/main/mips.ps1 | iex }"
+          echo about to mkdir
           mkdir -p games\CTR-ModSDK
       - name: Install mips
         run: mips install 13.1.0
