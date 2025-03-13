@@ -187,7 +187,7 @@ jobs:
           python ..\..\..\tools\mod-builder\main.py 5 1 # generate xdelta
           dir ..\build
       - name: print gcc_out
-        run: cat debug\gcc_out.txt || true
+        run: cat psx-modding-toolchain\games\CTR-ModSDK\decompile\debug\gcc_out.txt || true
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
