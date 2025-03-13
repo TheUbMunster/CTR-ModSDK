@@ -185,12 +185,13 @@ jobs:
           python ..\..\..\tools\mod-builder\main.py 1 1 # compile
           python ..\..\..\tools\mod-builder\main.py 4 1 # build iso
           python ..\..\..\tools\mod-builder\main.py 5 1 # generate xdelta
-          echo "gcc_out.txt build output"
-          cat debug\gcc_out.txt || true
+          dir ..\build
+      - name: print gcc_out
+        run: cat debug\gcc_out.txt || true
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: .\psx-modding-toolchain\games\CTR-ModSDK\build\ctr-u_decompile.xdelta
+          files: /psx-modding-toolchain/games/CTR-ModSDK/build/ctr-u_decompile.xdelta
 
 #  I cannot, for the life of me, get this to work
 
