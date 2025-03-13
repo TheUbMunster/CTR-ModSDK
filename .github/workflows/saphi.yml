@@ -183,7 +183,11 @@ jobs:
           mkdir build
           cd build
           # wget ${{secrets.ISO_NTSCU_WGET_PATH}}
-          iwr "${{secrets.ISO_NTSCU_WGET_PATH}}"
+          #iwr "${{secrets.ISO_NTSCU_WGET_PATH}}"
+
+          $filename = ${{secrets.ISO_NTSCU_WGET_PATH}} -split "/" | Select-Object -Last 1
+          iwr -Uri ${{secrets.ISO_NTSCU_WGET_PATH}} -OutFile $filename
+
           & "C:\Program Files\7-Zip\7z.exe" x -p${{secrets.ISO_NTSCU_DECRYPT_PASSPHRASE}} ctr-u.7z
           # gpg --output ctr-u.bin --batch --passphrase '${{secrets.ISO_NTSCU_DECRYPT_PASSPHRASE}}' -d ctr-u.bin.gpg
           # rm ctr-u.bin.gpg
