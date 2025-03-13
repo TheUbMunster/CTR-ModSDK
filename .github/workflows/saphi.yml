@@ -167,6 +167,8 @@ jobs:
       #    ls -la
       #    ls -la games
       #    ls -la games/CTR-ModSDK
+      - name: Install winget
+        uses: Cyberboss/install-winget@v1
       - name: install 7zip
         run: |
           # $client = new-object System.Net.WebClient
