@@ -195,7 +195,7 @@ jobs:
           echo "canonic ctr-u.bin md5 sum is                  'ab95bfca8a4bb3d90daa6519acf6e944'"
           $hashfileoutput = certutil -hashfile ctr-u.bin MD5
           $hash = ($hashfileoutput | Select-String -Pattern '([a-fA-F0-9]{32})').Matches.Groups[1].Value
-          echo "downloaded and decrypted ctr-u.bin md5 sum is $hash"
+          echo "downloaded and decrypted ctr-u.bin md5 sum is '$hash'"
       - name: Build xdelta
         run: |
           echo mipsel-none-elf-gcc --version
@@ -206,6 +206,10 @@ jobs:
           python ..\..\..\tools\mod-builder\main.py 1 1 # compile
           python ..\..\..\tools\mod-builder\main.py 4 1 # build iso
           python ..\..\..\tools\mod-builder\main.py 5 1 # generate xdelta
+          echo "ASDF"
+          ls -la output
+          echo "JKL"
+          tree .
           echo "ERROR LOG IF EXISTS"
           cat debug\gcc_out.txt || true
 
