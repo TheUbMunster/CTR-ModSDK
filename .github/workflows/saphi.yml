@@ -141,58 +141,37 @@ jobs:
           fetch-depth: 0
           submodules: recursive
           path: 'psx-modding-toolchain'
-      #- name: rename toolchain dir
-      #  run:
       - name: Install toolchain deps
         run: |
           cd psx-modding-toolchain
           pip install --upgrade pip setuptools wheel
           pip install -r requirements.txt
-          # sudo bash install_toolchain_prebuilt.sh
-          echo "about to do the mips ps1 script"
           powershell -c "& { iwr -UseBasicParsing https://raw.githubusercontent.com/grumpycoders/pcsx-redux/main/mips.ps1 | iex }"
-          echo "about to mkdir"
           mkdir -p games\CTR-ModSDK
       - name: Install mips
         run: |
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")  
           mips install 13.1.0
-          #setx /M path "%path%;%appdata%\mips\mips\bin"
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")  
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: recursive
           path: 'psx-modding-toolchain/games/CTR-ModSDK'
-      #- name: ls
-      #  run: |
-      #    ls -la
-      #    ls -la games
-      #    ls -la games/CTR-ModSDK
-      # - name: Install winget
-      #   uses: Cyberboss/install-winget@v1
       - name: install 7zip
         run: |
           $client = new-object System.Net.WebClient
           $client.DownloadFile("https://www.7-zip.org/a/7z2409-x64.exe","${{runner.temp}}\7zip.exe")
           & "${{runner.temp}}\7zip.exe" /S
-          # winget install 7zip.7zip --silent
-      # - name: install gpg
-      #   run: sudo apt install gpg
       - name: download encrypted game iso
         run: |
           cd psx-modding-toolchain/games/CTR-ModSDK
-          mkdir build
-          cd build
-          # wget ${{secrets.ISO_NTSCU_WGET_PATH}}
-          #iwr "${{secrets.ISO_NTSCU_WGET_PATH}}"
-
+          mkdir build && cd build
           $filename = "${{secrets.ISO_NTSCU_WGET_PATH}}" -split "/" | Select-Object -Last 1
           iwr "${{secrets.ISO_NTSCU_WGET_PATH}}" -OutFile $filename
-
+          # encrypted via
+          # C:\7zip\7z.exe a -t7z -ppassword -mhe=on ctr-u.7z ctr-u.bin
           & "C:\Program Files\7-Zip\7z.exe" x -p${{secrets.ISO_NTSCU_DECRYPT_PASSPHRASE}} ctr-u.7z
-          # gpg --output ctr-u.bin --batch --passphrase '${{secrets.ISO_NTSCU_DECRYPT_PASSPHRASE}}' -d ctr-u.bin.gpg
-          # rm ctr-u.bin.gpg
           echo "canonic ctr-u.bin md5 sum is                  'ab95bfca8a4bb3d90daa6519acf6e944'"
           $hashfileoutput = certutil -hashfile ctr-u.bin MD5
           $hash = ($hashfileoutput | Select-String -Pattern '([a-fA-F0-9]{32})').Matches.Groups[1].Value
@@ -201,26 +180,17 @@ jobs:
         run: |
           $env:Path = "$env:APPDATA\mips\mips\bin;" + $env:Path
           mipsel-none-elf-gcc --version
-          # export PATH="$PATH:/opt/gcc-mipsel-none-elf/bin"
-          # export PATH="$PATH:/opt/gcc-mipsel-none-elf/mipsel-none-elf/bin"
           cd psx-modding-toolchain\games\CTR-ModSDK\decompile
           python ..\..\..\tools\mod-builder\main.py 3 1 # extract iso
           python ..\..\..\tools\mod-builder\main.py 1 1 # compile
           python ..\..\..\tools\mod-builder\main.py 4 1 # build iso
           python ..\..\..\tools\mod-builder\main.py 5 1 # generate xdelta
-          echo "ASDF"
-          # ls output
-          ls ..\build
-          echo "JKL"
-          tree .
-          echo "QWER"
-          tree ..\build
-          echo "ERROR LOG IF EXISTS"
+          echo "gcc_out.txt build output"
           cat debug\gcc_out.txt || true
-
-# example based on my testing
-#gpg --batch --passphrase 'asdfasdf' -c thingy.txt
-#gpg -o thingy2.txt --passphrase 'asdfasdf' -d thingy2.txt.gpg
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: psx-modding-toolchain\games\CTR-ModSDK\build\ctr-u_decompile.xdelta
 
 #  I cannot, for the life of me, get this to work
 
