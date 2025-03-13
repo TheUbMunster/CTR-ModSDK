@@ -157,7 +157,7 @@ jobs:
         run: |
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")  
           mips install 13.1.0
-          setx /M path "%path%;%appdata%\mips\mips\bin"
+          #setx /M path "%path%;%appdata%\mips\mips\bin"
           $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")  
       - uses: actions/checkout@v4
         with:
@@ -199,6 +199,7 @@ jobs:
           echo "downloaded and decrypted ctr-u.bin md5 sum is '$hash'"
       - name: Build xdelta
         run: |
+          $env:Path = "$env:APPDATA\mips\mips\bin;" + $env:Path
           mipsel-none-elf-gcc --version
           # export PATH="$PATH:/opt/gcc-mipsel-none-elf/bin"
           # export PATH="$PATH:/opt/gcc-mipsel-none-elf/mipsel-none-elf/bin"
