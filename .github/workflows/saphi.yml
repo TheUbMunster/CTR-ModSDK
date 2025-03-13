@@ -207,9 +207,11 @@ jobs:
           python ..\..\..\tools\mod-builder\main.py 4 1 # build iso
           python ..\..\..\tools\mod-builder\main.py 5 1 # generate xdelta
           echo "ASDF"
-          ls output
+          # ls output
           echo "JKL"
           tree .
+          echo "QWER"
+          tree ..\build
           echo "ERROR LOG IF EXISTS"
           cat debug\gcc_out.txt || true
 
