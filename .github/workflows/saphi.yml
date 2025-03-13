@@ -182,7 +182,8 @@ jobs:
           cd psx-modding-toolchain/games/CTR-ModSDK
           mkdir build
           cd build
-          wget ${{secrets.ISO_NTSCU_WGET_PATH}}
+          # wget ${{secrets.ISO_NTSCU_WGET_PATH}}
+          iwr "${{secrets.ISO_NTSCU_WGET_PATH}}"
           & "C:\Program Files\7-Zip\7z.exe" x -p${{secrets.ISO_NTSCU_DECRYPT_PASSPHRASE}} ctr-u.7z
           # gpg --output ctr-u.bin --batch --passphrase '${{secrets.ISO_NTSCU_DECRYPT_PASSPHRASE}}' -d ctr-u.bin.gpg
           # rm ctr-u.bin.gpg
