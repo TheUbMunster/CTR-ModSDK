@@ -167,14 +167,14 @@ jobs:
       #    ls -la
       #    ls -la games
       #    ls -la games/CTR-ModSDK
-      - name: Install winget
-        uses: Cyberboss/install-winget@v1
+      # - name: Install winget
+      #   uses: Cyberboss/install-winget@v1
       - name: install 7zip
         run: |
-          # $client = new-object System.Net.WebClient
-          # $client.DownloadFile("https://www.7-zip.org/a/7z2409-x64.exe","C:\tmp\7zip.exe")
-          # C:\tmp\7zip.exe /S
-          winget install 7zip.7zip --silent
+          $client = new-object System.Net.WebClient
+          $client.DownloadFile("https://www.7-zip.org/a/7z2409-x64.exe","${{runner.temp}}\7zip.exe")
+          & "${{runner.temp}}\7zip.exe" /S
+          # winget install 7zip.7zip --silent
       # - name: install gpg
       #   run: sudo apt install gpg
       - name: download encrypted game iso
