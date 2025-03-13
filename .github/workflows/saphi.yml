@@ -165,7 +165,7 @@ jobs:
           & "${{runner.temp}}\7zip.exe" /S
       - name: download encrypted game iso
         run: |
-          cd psx-modding-toolchain/games/CTR-ModSDK
+          cd psx-modding-toolchain\games\CTR-ModSDK
           mkdir build && cd build
           $filename = "${{secrets.ISO_NTSCU_WGET_PATH}}" -split "/" | Select-Object -Last 1
           iwr "${{secrets.ISO_NTSCU_WGET_PATH}}" -OutFile $filename
@@ -190,7 +190,7 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          files: psx-modding-toolchain\games\CTR-ModSDK\build\ctr-u_decompile.xdelta
+          files: .\psx-modding-toolchain\games\CTR-ModSDK\build\ctr-u_decompile.xdelta
 
 #  I cannot, for the life of me, get this to work
 
