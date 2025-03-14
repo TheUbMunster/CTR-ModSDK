@@ -11,126 +11,126 @@ permissions:
   id-token: write
 
 jobs:
-#  build-saphi-server-linux-release:
-#    permissions: write-all
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#        with:
-#          fetch-depth: 0
-#          submodules: recursive
-#      - name: build
-#        run: (cd Saphi/Server && make -j $(getconf _NPROCESSORS_ONLN) server)
-#      - name: compress
-#        run: tar -f SaphiServer-linux-release-x64.tar.gz -c Saphi/Server/Server
-#      - name: Release
-#        uses: softprops/action-gh-release@v2
-#        with:
-#          files: SaphiServer-linux-release-x64.tar.gz
-#  build-saphi-server-linux-debug:
-#    permissions: write-all
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#        with:
-#          fetch-depth: 0
-#          submodules: recursive
-#      - name: build
-#        run: (cd Saphi/Server && make -j $(getconf _NPROCESSORS_ONLN) server-debug)
-#      - name: compress
-#        run: tar -f SaphiServer-linux-debug-x64.tar.gz -c Saphi/Server/Server
-#      - name: Release
-#        uses: softprops/action-gh-release@v2
-#        with:
-#          files: SaphiServer-linux-debug-x64.tar.gz
-#  build-saphi-server-windows-release:
-#    permissions: write-all
-#    runs-on: windows-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#        with:
-#          fetch-depth: 0
-#          submodules: recursive
-#      - name: Set up MSBuild
-#        uses: microsoft/setup-msbuild@v2
-#      - name: Restore Nuget
-#        run: nuget restore Saphi\Server\Server.sln
-#      - name: build
-#        run: msbuild Saphi\Server\Server.vcxproj /p:configuration=release /p:Platform=x64
-#      - name: zip
-#        run: Compress-Archive Saphi\Server\x64\release\ SaphiServer-windows-release-x64.zip
-#      - name: Release
-#        uses: softprops/action-gh-release@v2
-#        with:
-#          files: SaphiServer-windows-release-x64.zip
-#  build-saphi-server-windows-debug:
-#    permissions: write-all
-#    runs-on: windows-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#        with:
-#          fetch-depth: 0
-#          submodules: recursive
-#      - name: Set up MSBuild
-#        uses: microsoft/setup-msbuild@v2
-#      - name: Restore Nuget
-#        run: nuget restore Saphi\Server\Server.sln
-#      - name: build
-#        run: msbuild Saphi\Server\Server.vcxproj /p:configuration=debug /p:Platform=x64
-#      - name: zip
-#        run: Compress-Archive Saphi\Server\x64\debug\ SaphiServer-windows-debug-x64.zip
-#      - name: Release
-#        uses: softprops/action-gh-release@v2
-#        with:
-#          files: SaphiServer-windows-debug-x64.zip
-#  build-saphi-client-windows-release:
-#    permissions: write-all
-#    runs-on: windows-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#        with:
-#          fetch-depth: 0
-#          submodules: recursive
-#      - name: Set up MSBuild
-#        uses: microsoft/setup-msbuild@v2
-#      - name: Restore Nuget
-#        run: nuget restore Saphi\Client\Client.sln
-#      - name: build
-#        run: msbuild Saphi\Client\Client.vcxproj /p:configuration=release /p:Platform=x64
-#      - name: copy data
-#        run: |
-#          mkdir Saphi\Client\x64\release\data
-#          xcopy Saphi\Client\data Saphi\Client\x64\release\data /S
-#      - name: zip
-#        run: Compress-Archive Saphi\Client\x64\release\ SaphiClient-windows-release-x64.zip
-#      - name: Release
-#        uses: softprops/action-gh-release@v2
-#        with:
-#          files: SaphiClient-windows-release-x64.zip
-#  build-saphi-client-windows-debug:
-#    permissions: write-all
-#    runs-on: windows-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#        with:
-#          fetch-depth: 0
-#          submodules: recursive
-#      - name: Set up MSBuild
-#        uses: microsoft/setup-msbuild@v2
-#      - name: Restore Nuget
-#        run: nuget restore Saphi\Client\Client.sln
-#      - name: build
-#        run: msbuild Saphi\Client\Client.vcxproj /p:configuration=debug /p:Platform=x64
-#      - name: copy data
-#        run: |
-#          mkdir Saphi\Client\x64\debug\data
-#          xcopy Saphi\Client\data Saphi\Client\x64\debug\data /S
-#      - name: zip
-#        run: Compress-Archive Saphi\Client\x64\debug\ SaphiClient-windows-debug-x64.zip
-#      - name: Release
-#        uses: softprops/action-gh-release@v2
-#        with:
-#          files: SaphiClient-windows-debug-x64.zip
+  build-saphi-server-linux-release:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+      - name: build
+        run: (cd Saphi/Server && make -j $(getconf _NPROCESSORS_ONLN) server)
+      - name: compress
+        run: tar -f SaphiServer-linux-release-x64.tar.gz -c Saphi/Server/Server
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: SaphiServer-linux-release-x64.tar.gz
+  build-saphi-server-linux-debug:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+      - name: build
+        run: (cd Saphi/Server && make -j $(getconf _NPROCESSORS_ONLN) server-debug)
+      - name: compress
+        run: tar -f SaphiServer-linux-debug-x64.tar.gz -c Saphi/Server/Server
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: SaphiServer-linux-debug-x64.tar.gz
+  build-saphi-server-windows-release:
+    permissions: write-all
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v2
+      - name: Restore Nuget
+        run: nuget restore Saphi\Server\Server.sln
+      - name: build
+        run: msbuild Saphi\Server\Server.vcxproj /p:configuration=release /p:Platform=x64
+      - name: zip
+        run: Compress-Archive Saphi\Server\x64\release\ SaphiServer-windows-release-x64.zip
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: SaphiServer-windows-release-x64.zip
+  build-saphi-server-windows-debug:
+    permissions: write-all
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v2
+      - name: Restore Nuget
+        run: nuget restore Saphi\Server\Server.sln
+      - name: build
+        run: msbuild Saphi\Server\Server.vcxproj /p:configuration=debug /p:Platform=x64
+      - name: zip
+        run: Compress-Archive Saphi\Server\x64\debug\ SaphiServer-windows-debug-x64.zip
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: SaphiServer-windows-debug-x64.zip
+  build-saphi-client-windows-release:
+    permissions: write-all
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v2
+      - name: Restore Nuget
+        run: nuget restore Saphi\Client\Client.sln
+      - name: build
+        run: msbuild Saphi\Client\Client.vcxproj /p:configuration=release /p:Platform=x64
+      - name: copy data
+        run: |
+          mkdir Saphi\Client\x64\release\data
+          xcopy Saphi\Client\data Saphi\Client\x64\release\data /S
+      - name: zip
+        run: Compress-Archive Saphi\Client\x64\release\ SaphiClient-windows-release-x64.zip
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: SaphiClient-windows-release-x64.zip
+  build-saphi-client-windows-debug:
+    permissions: write-all
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v2
+      - name: Restore Nuget
+        run: nuget restore Saphi\Client\Client.sln
+      - name: build
+        run: msbuild Saphi\Client\Client.vcxproj /p:configuration=debug /p:Platform=x64
+      - name: copy data
+        run: |
+          mkdir Saphi\Client\x64\debug\data
+          xcopy Saphi\Client\data Saphi\Client\x64\debug\data /S
+      - name: zip
+        run: Compress-Archive Saphi\Client\x64\debug\ SaphiClient-windows-debug-x64.zip
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: SaphiClient-windows-debug-x64.zip
   build-saphi-game:
     permissions: write-all
     runs-on: windows-latest
