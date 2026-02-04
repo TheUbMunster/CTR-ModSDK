@@ -37,3 +37,6 @@ void ND_COLL_LoadVerticeData(CollDCache* cache);
 s32 ND_COLL_BarycentricTest(TestVertex* t, const CollVertex* v1, const CollVertex* v2, const CollVertex* v3);
 void ND_COLL_TestTriangle(CollDCache* cache, const CollVertex* v1, const CollVertex* v2, const CollVertex* v3);
 void ND_COLL_TestLeaf_Quadblock(const Quadblock* quadblock, CollDCache* cache);
+
+/* DECALFONT */
+s32 ND_DecalFont_GetLineWidthStrlen(char* str, s16 len, s32 fontType);

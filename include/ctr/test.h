@@ -85,3 +85,9 @@ force_inline void FlushCache()
     #define TEST_COLL_TestTriangle(cache, v1, v2, v3, ret)
     #define TEST_COLL_TestLeaf_Quadblock(quadblock, cache, ret)
 #endif
+
+#ifdef TEST_DECALFONT_IMPL
+	void TEST_DecalFont_GetLineWidthStrlen(char* str, s16 len, s32 fontType, s32 ret);
+#else
+	#define TEST_DecalFont_GetLineWidthStrlen(str, len, fontType, ret)
+#endif
