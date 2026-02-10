@@ -55,3 +55,4 @@ games/settings.json
 mods/MyMods/*
 
 log.txt
+.claude/settings.local.json

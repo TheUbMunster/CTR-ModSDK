@@ -7,6 +7,7 @@
 #include <ctr/math.h>
 #include <ctr/rng.h>
 #include <ctr/coll.h>
+#include <ctr/decalfont.h>
 
 extern const char* s_nameTestedFunc;
 
@@ -26,9 +27,10 @@ force_inline void FlushCache()
 
 #define BACKUP_ADDR 0x80400000
 
-#define TEST_MATH_IMPL
-#define TEST_RNG_IMPL
-#define TEST_COLL_IMPL
+//#define TEST_MATH_IMPL
+//#define TEST_RNG_IMPL
+//#define TEST_COLL_IMPL
+#define TEST_DECALFONT_IMPL
 
 #ifdef TEST_MATH_IMPL
     void TEST_MATH_Sin(u32 angle, s32 ret);
@@ -87,7 +89,9 @@ force_inline void FlushCache()
 #endif
 
 #ifdef TEST_DECALFONT_IMPL
-	void TEST_DecalFont_GetLineWidthStrlen(char* str, s16 len, s32 fontType, s32 ret);
+	void TEST_DecalFont_GetLineWidthStrlen(char* str, u16 len, s32 fontType, s32 ret);
+	void TEST_DecalFont_GetLineWidth(char* str, s32 fontType, s32 ret);
 #else
 	#define TEST_DecalFont_GetLineWidthStrlen(str, len, fontType, ret)
+	#define TEST_DecalFont_GetLineWidth(str, fontType, ret)
 #endif

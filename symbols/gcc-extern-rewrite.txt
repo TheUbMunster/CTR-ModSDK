@@ -1,3 +1,14 @@
 e_gameTracker = 0x8008d2ac;
 e_seed = 0x8008d424;
 e_ignoreCollisionDoorFlagTerrain = 0x8008d728;
+
+fontCharPixelWidth = 0x80082360;
+fontButtonPixelWidth = 0x80082460;
+fontPunctuationPixelWidth = 0x80082370;
+fontColors = 0x80081d70;
+fontButtonScale = 0x80082458;
+fontButtonPixHeight = 0x80082468;
+fontIndentIconID = 0x80082470;
+fontIndentPixelDimensions = 0x80082478;
+fontCharacterIconID = 0x80082378;
+fontIconGroupID = 0x80082358;

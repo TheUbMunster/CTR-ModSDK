@@ -30,6 +30,8 @@ FunctionPatch s_functions[] =
     TEST_FUNC(RNG_PseudoRand),
     TEST_FUNC(RNG_Random),
     TEST_FUNC(COLL_TestLeaf_Quadblock),
+	TEST_FUNC(DecalFont_GetLineWidthStrlen),
+	TEST_FUNC(DecalFont_GetLineWidth),
 };
 
 const char* s_nameTestedFunc = nullptr;

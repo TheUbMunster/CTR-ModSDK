@@ -39,4 +39,8 @@ void ND_COLL_TestTriangle(CollDCache* cache, const CollVertex* v1, const CollVer
 void ND_COLL_TestLeaf_Quadblock(const Quadblock* quadblock, CollDCache* cache);
 
 /* DECALFONT */
-s32 ND_DecalFont_GetLineWidthStrlen(char* str, s16 len, s32 fontType);
+s32 ND_DecalFont_GetLineWidthStrlen(char* str, u16 len, s32 fontType);
+s32 ND_DecalFont_GetLineWidth(char* str, s32 fontType);
+
+/* DECALHUD */
+//void DecalHUD_DrawPolyGT4(struct Icon* icon, s16 posX, s16 posY, struct PrimMem* primMem, u32* ot, u32 color0, u32 color1, u32 color2, u32 color3, u8 transparency, s16 scale);
