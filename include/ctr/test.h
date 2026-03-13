@@ -91,7 +91,11 @@ force_inline void FlushCache()
 #ifdef TEST_DECALFONT_IMPL
 	void TEST_DecalFont_GetLineWidthStrlen(char* str, u16 len, s32 fontType, s32 ret);
 	void TEST_DecalFont_GetLineWidth(char* str, s32 fontType, s32 ret);
+	void TEST_DecalFont_DrawMultiLineStrlen(char* str, s16 len, s16 posX, s16 posY, s16 maxPixLen, s16 fontType, s16 flags, s32 ret);
+	void TEST_DecalFont_DrawMultiLine(char* str, s32 posX, s32 posY, s32 maxPixLen, s16 fontType, s32 flags, s32 ret);
 #else
 	#define TEST_DecalFont_GetLineWidthStrlen(str, len, fontType, ret)
 	#define TEST_DecalFont_GetLineWidth(str, fontType, ret)
+	#define TEST_DecalFont_DrawMultiLineStrlen(str, len, posX, posY, maxPixLen, fontType, flags, ret)
+	#define TEST_DecalFont_DrawMultiLine(str, posX, posY, maxPixLen, fontType, flags, ret)
 #endif

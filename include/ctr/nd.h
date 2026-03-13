@@ -42,5 +42,24 @@ void ND_COLL_TestLeaf_Quadblock(const Quadblock* quadblock, CollDCache* cache);
 s32 ND_DecalFont_GetLineWidthStrlen(char* str, u16 len, s32 fontType);
 s32 ND_DecalFont_GetLineWidth(char* str, s32 fontType);
 
+void ND_DecalFont_DrawLineStrlen(char* str, s16 len, s32 posX, s16 posY, s16 fontType, s32 flags);
+void ND_DecalFont_DrawLine(char* str, s16 posX, s16 posY, u8 fontType, u16 flags);
+void ND_DecalFont_DrawLineOT(char* str, s32 posX, s32 posY, s16 fontType, u16 flags, u32* ot);
+s32 ND_DecalFont_DrawMultiLineStrlen(char* str, s16 len, s16 posX, s16 posY, s16 maxPixLen, s16 fontType, s16 flags);
+s32 ND_DecalFont_DrawMultiLine(char* str, s32 posX, s32 posY, s32 maxPixLen, s16 fontType, s32 flags);
+
 /* DECALHUD */
-//void DecalHUD_DrawPolyGT4(struct Icon* icon, s16 posX, s16 posY, struct PrimMem* primMem, u32* ot, u32 color0, u32 color1, u32 color2, u32 color3, u8 transparency, s16 scale);
+void ND_DecalHUD_DrawPolyGT4
+(
+    void* icon,
+    s16 posX,
+    s16 posY,
+    void* primMem,
+    u32* ot,
+    u32 color0,
+    u32 color1,
+    u32 color2,
+    u32 color3,
+    u8 transparency,
+    s16 scale
+);

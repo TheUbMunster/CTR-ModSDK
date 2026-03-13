@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ctr/macros.h>
+#include <ctr/icon.h>
 
 
 /*
@@ -13,10 +14,7 @@
  *   font_charPixHeight, font_buttonScale, font_buttonPixHeight, font_IconGroupID,
  *   font_characterIconID, font_indentIconID, font_indentPixDimensions, ptrColor)
  *
- * Already defined in namespace_Decal.h:
- * - struct Icon, struct IconGroup, struct TextureLayout
- * - enum Font, enum FontFlags, enum Colors, enum BlendModeDecal
- * - ICONGROUP_GETICONS macro
+ * Additional rendering types still needed in include/ctr/.
  */
 
 enum FontFlags
@@ -75,6 +73,7 @@ enum Font
 };
 
 extern s16 fontCharPixelWidth[FONT_NUM]; //0x80082360
+extern s16 fontCharPixelHeight[FONT_NUM]; //0x80082368
 extern s16 fontButtonPixelWidth[FONT_NUM]; //0x80082460
 extern s16 fontPunctuationPixelWidth[FONT_NUM]; //0x80082370
 extern u32* fontColors[NUM_COLORS]; //0x80081d70
@@ -87,8 +86,8 @@ extern s16 fontIconGroupID[FONT_NUM]; //0x80082358
 
 s32 DecalFont_GetLineWidthStrlen(char* str, u16 len, s32 fontType);
 s32 DecalFont_GetLineWidth(char* str, s32 fontType);
-//void DecalFont_DrawLineStrlen(char* str, u16 len, s32 posX, s16 posY, s16 fontType, s32 flags);
-//void DecalFont_DrawLine(char* str, s32 posX, s32 posY, s16 fontType, s32 flags);
-//void DecalFont_DrawLineOT(char* str, s32 posX, s32 posY, s16 fontType, s32 flags, u32* ot);
-//s32 DecalFont_DrawMultiLineStrlen(char* str, u16 len, s16 posX, s16 posY, s16 maxPixLen, s16 fontType, s16 flags);
-//s32 DecalFont_DrawMultiLine(char* str, s32 posX, s32 posY, s32 maxPixLen, s16 fontType, s32 flags);
+void DecalFont_DrawLineStrlen(char* str, u16 len, s32 posX, s16 posY, s16 fontType, s32 flags);
+void DecalFont_DrawLine(char* str, s32 posX, s32 posY, s16 fontType, s32 flags);
+void DecalFont_DrawLineOT(char* str, s32 posX, s32 posY, s16 fontType, s32 flags, u32* ot);
+s32 DecalFont_DrawMultiLineStrlen(char* str, s16 len, s16 posX, s16 posY, s16 maxPixLen, s16 fontType, s16 flags);
+s32 DecalFont_DrawMultiLine(char* str, s32 posX, s32 posY, s32 maxPixLen, s16 fontType, s32 flags);

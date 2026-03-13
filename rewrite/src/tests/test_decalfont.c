@@ -18,4 +18,26 @@ void TEST_DecalFont_GetLineWidth(char* str, s32 fontType, s32 ret)
 	PatchFunction_End(index);
 }
 
+void TEST_DecalFont_DrawMultiLineStrlen(char* str, s16 len, s16 posX, s16 posY, s16 maxPixLen, s16 fontType, s16 flags, s32 ret)
+{
+	const u32 index = PatchFunction_Beg((u32*)(&ND_DecalFont_DrawMultiLineStrlen), "DecalFont_DrawMultiLineStrlen");
+	const s32 expected = ND_DecalFont_DrawMultiLineStrlen(str, len, posX, posY, maxPixLen, fontType, flags);
+	if (expected != ret)
+	{
+		ND_printf("[%s] Test Failed:\nInput: \"%s\" %d %d %d %d %d %d\nExpected: %d\nResult: %d\n", s_nameTestedFunc, str, len, posX, posY, maxPixLen, fontType, flags, expected, ret);
+	}
+	PatchFunction_End(index);
+}
+
+void TEST_DecalFont_DrawMultiLine(char* str, s32 posX, s32 posY, s32 maxPixLen, s16 fontType, s32 flags, s32 ret)
+{
+	const u32 index = PatchFunction_Beg((u32*)(&ND_DecalFont_DrawMultiLine), "DecalFont_DrawMultiLine");
+	const s32 expected = ND_DecalFont_DrawMultiLine(str, posX, posY, maxPixLen, fontType, flags);
+	if (expected != ret)
+	{
+		ND_printf("[%s] Test Failed:\nInput: \"%s\" %d %d %d %d %d\nExpected: %d\nResult: %d\n", s_nameTestedFunc, str, posX, posY, maxPixLen, fontType, flags, expected, ret);
+	}
+	PatchFunction_End(index);
+}
+
 #endif // TEST_DECALFONT_IMPL
